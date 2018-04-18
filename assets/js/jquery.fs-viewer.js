@@ -111,7 +111,7 @@
 
             const zoomOut = () => {
                 clearInterval(scrollImg);
-                $viewLayer.unbind("mousewheel");
+                $viewLayer.unbind("wheel");
                 $viewLayer.find('img').css("max-height", "100%");
                 $viewLayer.find('img').css('transform', 'translate(-50%, -50%)');
                 $viewLayer.find('img').off('mousemove');
@@ -125,10 +125,7 @@
                 zoomOut();
             });
             return function(e) {
-                $viewLayer.bind("mousewheel", function() {
-                    return false;
-                });
-                $zoom.bind("mousewheel", function() {
+                $viewLayer.add($zoom).bind("wheel", function() {
                     return false;
                 });
                 $arrow.hide();
@@ -137,7 +134,6 @@
                 let mouseLastZone = 0;
                 const zoneZeroHeight = 60;
                 const zoneHeight = 30;
-
                 const mouseCurrentZone = (pageY) => {
                     const topLineZero = imgCenter - (zoneZeroHeight / 2);
                     const bottomLineZero = imgCenter + (zoneZeroHeight / 2);
@@ -152,7 +148,7 @@
                 if (e && !viewer._isZoomed) {
                     $viewLayer.find('img').css("max-height", "400%");
                     viewer._isZoomed = true;
-                    $viewLayer.on("mousewheel", (event) => { // normal scroll by mousewheel
+                    $viewLayer.on("wheel", (event) => { // normal scroll by mousewheel
                         let scrollDirection = event.originalEvent.deltaY;
                         if (scrollDirection < 0 && translate < -12) {
                             translate += 1;
@@ -163,7 +159,7 @@
                         }
                     });
 
-                    $viewLayer.find('img').on('mousemove', (event) => { // scroll by position mouse
+                    $viewLayer.find('img').on('mousemove', (event) => { // scroll by position mouse on screeen, you can delete this block if no need it
                         let mouseNewZone = mouseCurrentZone(event.pageY);
                         if (mouseLastZone !== mouseNewZone) { //mouse cursor change zone
                             mouseLastZone = mouseNewZone;
@@ -225,15 +221,28 @@
             const viewer = this;
             const imgLength = viewer._context.length - 1;
             return function(e) {
+                let animateSetPointOne = '-100%';
+                let animateSetPointTwo = '150%';
+                if (!moveForward) {
+                    animateSetPointOne = '200%';
+                    animateSetPointTwo = '-100%';
+                }
                 let nextImgId = viewer._cur;
                 if (moveForward && nextImgId !== imgLength) {
                     nextImgId = ++viewer._cur;
                 } else if (nextImgId !== 0) {
                     nextImgId = --viewer._cur;
                 };
-                viewer.$viewLayer.find('img').attr('src', `${$(viewer._context[nextImgId]).attr('href')}`);
-                viewer._zoomShowHide();
-                viewer._arrowsShowHide();
+                viewer.$viewLayer.find('img')
+                    .animate({ left: animateSetPointOne }, () => {
+                        viewer.$viewLayer.find('img')
+                            .attr('src', `${$(viewer._context[nextImgId]).attr('href')}`)
+                    })
+                    .animate({ left: animateSetPointTwo }, 0)
+                    .animate({ left: '50%' }, () => {
+                        viewer._zoomShowHide();
+                        viewer._arrowsShowHide();
+                    });
             };
         }
 
