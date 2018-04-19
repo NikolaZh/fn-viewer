@@ -233,21 +233,22 @@
                 } else if (nextImgId !== 0) {
                     nextImgId = --viewer._cur;
                 };
-                viewer.$viewLayer.find('img')
+                const imgViewer = viewer.$viewLayer.find('img');
+                imgViewer[0].onload = () => {
+                    imgViewer
+                        .animate({ left: '50%' }, () => {
+                            viewer._zoomShowHide();
+                            viewer._arrowsShowHide();
+                        });
+                };
+                imgViewer
                     .animate({ left: animateSetPointOne }, () => {
-                        viewer.$viewLayer.find('img')
+                        imgViewer
                             .attr('src', `${$(viewer._context[nextImgId]).attr('href')}`)
                     })
-                    .animate({ left: animateSetPointTwo }, 0)
-                    .load(() => {
-                        viewer.$viewLayer.find('img')
-                            .animate({ left: '50%' }, () => {
-                                viewer._zoomShowHide();
-                                viewer._arrowsShowHide();
-                            });
+                    .animate({ left: animateSetPointTwo }, 0, () => {
+                        imgViewer[0].onload();
                     })
-
-
             };
         }
 
