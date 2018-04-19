@@ -242,6 +242,12 @@
                     return true;
                 };
 
+                imgViewer
+                    .animate({ left: animateSetPointOne }, () => {
+                        imgViewer
+                            .attr('src', `${$(viewer._context[nextImgId]).attr('href')}`)
+                    })
+                    .animate({ left: animateSetPointTwo }, 0);
 
                 $.when(
                     imgLoad()
@@ -255,13 +261,6 @@
                     //         });
                     // };
                     imgViewer
-                        .animate({ left: animateSetPointOne }, () => {
-                            imgViewer
-                                .attr('src', `${$(viewer._context[nextImgId]).attr('href')}`)
-                        })
-                        .animate({ left: animateSetPointTwo }, 0, () => {
-                            // imgViewer[0].onload();
-                        })
                         .animate({ left: '50%' }, () => {
                             viewer._zoomShowHide();
                             viewer._arrowsShowHide();
