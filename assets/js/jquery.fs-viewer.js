@@ -233,57 +233,24 @@
                 } else if (nextImgId !== 0) {
                     nextImgId = --viewer._cur;
                 };
-                // console.log(viewer.$viewLayer.find('img'));
-                // console.log(viewer.$viewLayer.find('img')[0]);
-                // console.log(viewer.$viewLayer.find('img')[0].currentSrc);
-
                 const imgViewer = viewer.$viewLayer.find('img');
-
+                const fullImgUrl = viewer._context[nextImgId].href;
                 imgViewer
                     .animate({ left: animateSetPointOne }, () => {
                         imgViewer
-                            .attr('src', `${$(viewer._context[nextImgId]).attr('href')}`)
-                    })
-                    .animate({ left: animateSetPointTwo }, 0);
-                const fullImgUrl = viewer.$viewLayer.find('img')[0].src;
-                console.log(fullImgUrl);
-                $.when(
-                    loadImage(fullImgUrl)
-                ).then(() => {
-                    const fsImg = viewer._getFsImg().get(0);
-                    fsImg.src = fullImgUrl;
-                    // const imgViewer = viewer.$viewLayer.find('img');
-                    // imgViewer[0].onload = () => {
-                    //     imgViewer
-                    //         .animate({ left: '50%' }, () => {
-                    //             viewer._zoomShowHide();
-                    //             viewer._arrowsShowHide();
-                    //         });
-                    // };
-                    imgViewer
-                        .animate({ left: '50%' }, () => {
-                            viewer._zoomShowHide();
-                            viewer._arrowsShowHide();
+                            .animate({ left: animateSetPointTwo }, 0);
+                        $.when(
+                            loadImage(fullImgUrl)
+                        ).then(() => {
+                            const fsImg = viewer._getFsImg().get(0);
+                            fsImg.src = fullImgUrl;
+                            imgViewer
+                                .animate({ left: '50%' }, () => {
+                                    viewer._zoomShowHide();
+                                    viewer._arrowsShowHide();
+                                });
                         });
-                });
-
-
-                // const imgViewer = viewer.$viewLayer.find('img');
-                // imgViewer[0].onload = () => {
-                //     imgViewer
-                //         .animate({ left: '50%' }, () => {
-                //             viewer._zoomShowHide();
-                //             viewer._arrowsShowHide();
-                //         });
-                // };
-                // imgViewer
-                //     .animate({ left: animateSetPointOne }, () => {
-                //         imgViewer
-                //             .attr('src', `${$(viewer._context[nextImgId]).attr('href')}`)
-                //     })
-                //     .animate({ left: animateSetPointTwo }, 0, () => {
-                //         imgViewer[0].onload();
-                //     })
+                    })
             };
         }
 
@@ -364,7 +331,7 @@
                 });
                 $.when(
                     fxStop,
-                    loadImage(fullImgUrl)
+                    loadImage(fullImgUrl),
                 ).then(($fxImg, fullImg) => {
                     const fsImg = viewer._getFsImg().get(0);
                     fsImg.src = fullImg.src;
