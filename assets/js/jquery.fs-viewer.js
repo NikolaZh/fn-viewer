@@ -233,14 +233,11 @@
                 } else if (nextImgId !== 0) {
                     nextImgId = --viewer._cur;
                 };
-                console.log(viewer.$viewLayer.find('img'));
-                console.log(viewer.$viewLayer.find('img')[0]);
-                console.log(viewer.$viewLayer.find('img')[0].currentSrc);
+                // console.log(viewer.$viewLayer.find('img'));
+                // console.log(viewer.$viewLayer.find('img')[0]);
+                // console.log(viewer.$viewLayer.find('img')[0].currentSrc);
 
                 const imgViewer = viewer.$viewLayer.find('img');
-                const imgLoad = imgViewer[0].onload = () => {
-                    return true;
-                };
 
                 imgViewer
                     .animate({ left: animateSetPointOne }, () => {
@@ -248,12 +245,13 @@
                             .attr('src', `${$(viewer._context[nextImgId]).attr('href')}`)
                     })
                     .animate({ left: animateSetPointTwo }, 0);
-                const fullImgUrl = imgViewer[0].src;
+                const fullImgUrl = viewer.$viewLayer.find('img')[0].src;
+                console.log(fullImgUrl);
                 $.when(
                     loadImage(fullImgUrl)
                 ).then(() => {
                     const fsImg = viewer._getFsImg().get(0);
-                    fsImg.src = fullImgUrl.src;
+                    fsImg.src = fullImgUrl;
                     // const imgViewer = viewer.$viewLayer.find('img');
                     // imgViewer[0].onload = () => {
                     //     imgViewer
