@@ -233,22 +233,52 @@
                 } else if (nextImgId !== 0) {
                     nextImgId = --viewer._cur;
                 };
-                const imgViewer = viewer.$viewLayer.find('img');
-                imgViewer[0].onload = () => {
+                console.log(viewer.$viewLayer.find('img'));
+                console.log(viewer.$viewLayer.find('img')[0]);
+                console.log(viewer.$viewLayer.find('img')[0].currentSrc);
+
+                $.when(
+                    viewer.$viewLayer.find('img')
+                ).then(() => {
+                    const imgViewer = viewer.$viewLayer.find('img');
+                    // imgViewer[0].onload = () => {
+                    //     imgViewer
+                    //         .animate({ left: '50%' }, () => {
+                    //             viewer._zoomShowHide();
+                    //             viewer._arrowsShowHide();
+                    //         });
+                    // };
                     imgViewer
+                        .animate({ left: animateSetPointOne }, () => {
+                            imgViewer
+                                .attr('src', `${$(viewer._context[nextImgId]).attr('href')}`)
+                        })
+                        .animate({ left: animateSetPointTwo }, 0, () => {
+                            // imgViewer[0].onload();
+                        })
                         .animate({ left: '50%' }, () => {
                             viewer._zoomShowHide();
                             viewer._arrowsShowHide();
                         });
-                };
-                imgViewer
-                    .animate({ left: animateSetPointOne }, () => {
-                        imgViewer
-                            .attr('src', `${$(viewer._context[nextImgId]).attr('href')}`)
-                    })
-                    .animate({ left: animateSetPointTwo }, 0, () => {
-                        imgViewer[0].onload();
-                    })
+                });
+
+
+                // const imgViewer = viewer.$viewLayer.find('img');
+                // imgViewer[0].onload = () => {
+                //     imgViewer
+                //         .animate({ left: '50%' }, () => {
+                //             viewer._zoomShowHide();
+                //             viewer._arrowsShowHide();
+                //         });
+                // };
+                // imgViewer
+                //     .animate({ left: animateSetPointOne }, () => {
+                //         imgViewer
+                //             .attr('src', `${$(viewer._context[nextImgId]).attr('href')}`)
+                //     })
+                //     .animate({ left: animateSetPointTwo }, 0, () => {
+                //         imgViewer[0].onload();
+                //     })
             };
         }
 
