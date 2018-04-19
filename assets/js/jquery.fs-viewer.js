@@ -248,10 +248,12 @@
                             .attr('src', `${$(viewer._context[nextImgId]).attr('href')}`)
                     })
                     .animate({ left: animateSetPointTwo }, 0);
-
+                const fullImgUrl = imgViewer[0].src;
                 $.when(
-                    imgLoad()
+                    loadImage(fullImgUrl)
                 ).then(() => {
+                    const fsImg = viewer._getFsImg().get(0);
+                    fsImg.src = fullImgUrl.src;
                     // const imgViewer = viewer.$viewLayer.find('img');
                     // imgViewer[0].onload = () => {
                     //     imgViewer
