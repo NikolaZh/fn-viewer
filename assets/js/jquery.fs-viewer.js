@@ -237,10 +237,16 @@
                 console.log(viewer.$viewLayer.find('img')[0]);
                 console.log(viewer.$viewLayer.find('img')[0].currentSrc);
 
+                const imgViewer = viewer.$viewLayer.find('img');
+                const imgLoad = imgViewer[0].onload = () => {
+                    return true;
+                };
+
+
                 $.when(
-                    viewer.$viewLayer.find('img')
+                    imgLoad()
                 ).then(() => {
-                    const imgViewer = viewer.$viewLayer.find('img');
+                    // const imgViewer = viewer.$viewLayer.find('img');
                     // imgViewer[0].onload = () => {
                     //     imgViewer
                     //         .animate({ left: '50%' }, () => {
