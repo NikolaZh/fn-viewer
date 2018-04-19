@@ -239,10 +239,15 @@
                             .attr('src', `${$(viewer._context[nextImgId]).attr('href')}`)
                     })
                     .animate({ left: animateSetPointTwo }, 0)
-                    .animate({ left: '50%' }, () => {
-                        viewer._zoomShowHide();
-                        viewer._arrowsShowHide();
-                    });
+                    .load(() => {
+                        viewer.$viewLayer.find('img')
+                            .animate({ left: '50%' }, () => {
+                                viewer._zoomShowHide();
+                                viewer._arrowsShowHide();
+                            });
+                    })
+
+
             };
         }
 
