@@ -142,6 +142,9 @@
 
             return function(e) {
                 // e.preventDefault();
+                if (e.originalEvent.touches.length === 2) {
+                    alert('test');
+                }
                 const touch = e.originalEvent.touches[0];
                 if (e.type === 'touchstart') {
                     touchStartXY.clientX = touch.clientX;
