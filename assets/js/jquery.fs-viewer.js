@@ -141,7 +141,7 @@
             };
 
             return function(e) {
-                // e.preventDefault();
+                e.preventDefault();
                 if (e.originalEvent.touches.length === 2) {
                     alert('test');
                 }
