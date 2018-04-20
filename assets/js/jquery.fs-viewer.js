@@ -56,6 +56,7 @@
             this._context = $context.each(function(i) { //cycle operations with DOM-elements
                 $(this).data('fsViewerIndex', i);
             });
+            this._deviceIsMobile = (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase()));
             this._addUIHandlers();
         }
 
@@ -194,27 +195,31 @@
         }
 
         _zoomShowHide() {
-            const viewer = this;
-            const fsImg = viewer._getFsImg().get(0);
-            if (!($(window).height() > fsImg.height)) {
-                viewer.$zoom.show();
-            } else viewer.$zoom.hide();
+            if (!this._deviceIsMobile) {
+                const viewer = this;
+                const fsImg = viewer._getFsImg().get(0);
+                if (!($(window).height() > fsImg.height)) {
+                    viewer.$zoom.show();
+                } else viewer.$zoom.hide();
+            }
         }
 
         _arrowsShowHide() {
-            const viewer = this;
-            const imgLength = viewer._context.length;
-            const nextImgId = viewer._cur;
-            if (nextImgId === 0) {
-                viewer.$arrowBack.hide();
-            } else {
-                viewer.$arrowBack.show();
-            };
-            if (nextImgId === (imgLength - 1)) {
-                viewer.$arrow.hide();
-            } else {
-                viewer.$arrow.show();
-            };
+            if (!this._deviceIsMobile) {
+                const viewer = this;
+                const imgLength = viewer._context.length;
+                const nextImgId = viewer._cur;
+                if (nextImgId === 0) {
+                    viewer.$arrowBack.hide();
+                } else {
+                    viewer.$arrowBack.show();
+                };
+                if (nextImgId === (imgLength - 1)) {
+                    viewer.$arrow.hide();
+                } else {
+                    viewer.$arrow.show();
+                };
+            }
         }
 
         _moveToNextImage(moveForward) {
