@@ -1,20 +1,19 @@
 (function($) {
     const loadImage = (src) => {
-        var dfr = $.Deferred(); //chain object
-        var img = new Image();
+        const dfr = $.Deferred(); // chain object
+        const img = new Image();
         img.src = src;
         img.onload = function() {
-            dfr.resolve(img); //switch Defered to succes done
+            dfr.resolve(img); // switch Defered to succes done
         };
         return dfr.promise();
     };
 
 
-
     const renderFsLayer = () => {
         const
             $body = $('body');
-        $view = $('<div/>').addClass('full-size-photo').hide().appendTo($body); //insert div
+        $view = $('<div/>').addClass('full-size-photo').hide().appendTo($body); // insert div
         $zoom = $('<div/>').addClass('full-size-zoom-tool').hide().appendTo($body);
         $zoom.prepend('<img id="loop" src="assets/images/icon.loupe.svg"/>');
         $zoom.find('img').addClass('full-size-zoom-tool-img');
@@ -31,18 +30,24 @@
             caption: $('<div/>').addClass('full-size-photo__text').hide().appendTo($view),
             zoom: $zoom,
             arrow: $arrow,
-            arrowBack: $arrowBack
+            arrowBack: $arrowBack,
         };
     };
 
 
     class Viewer {
-
         constructor($context, options = {}) {
             this._o = $.extend({ // merger objects
 
             }, options);
-            const { fading, view, caption, zoom, arrow, arrowBack } = renderFsLayer();
+            const {
+                fading,
+                view,
+                caption,
+                zoom,
+                arrow,
+                arrowBack,
+            } = renderFsLayer();
             this.$fadingLayer = fading;
             this.$viewLayer = view;
             this.$zoom = zoom;
@@ -53,7 +58,7 @@
             this._isZoomed = false;
             this._images = [];
             this._cur = 0;
-            this._context = $context.each(function(i) { //cycle operations with DOM-elements
+            this._context = $context.each(function(i) { // cycle operations with DOM-elements
                 $(this).data('fsViewerIndex', i);
             });
             this._deviceIsMobile = (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase()));
@@ -75,14 +80,14 @@
         close() {
             this.$fadingLayer.fadeOut();
             this.$viewLayer.fadeOut();
-            this.$captionLayer.fadeOut(); //TODO: slide bottom
+            this.$captionLayer.fadeOut(); // TODO: slide bottom
             this.$zoom.fadeOut();
             this.$arrow.fadeOut();
             this.$arrowBack.fadeOut();
         }
 
         show(index = 1) {
-            //TODO: implement
+            // TODO: implement
         }
 
         _addUIHandlers() {
@@ -93,7 +98,11 @@
             };
             this.$.on('click', this._getClickHandler());
             this.$fadingLayer.on('click', closeHandler);
-            this.$viewLayer.on('click', closeHandler);
+            if (this._deviceIsMobile) {
+                this.$viewLayer.on('touchmove touchstart touchend', this._mobileHandler());
+            } else {
+                this.$viewLayer.on('click', closeHandler);
+            }
             this.$zoom.on('click', this._zoom());
             this.$arrow.on('click', this._moveToNextImage(true));
             this.$arrowBack.on('click', this._moveToNextImage(false));
@@ -104,6 +113,51 @@
             this._arrowsShowHide();
         }
 
+        _mobileHandler() {
+            const touchStartXY = {};
+            const touchEndXY = {};
+            const swipeHandler = () => {
+                const viewer = this;
+                const imgViewer = viewer.$viewLayer.find('img');
+                const deltaX = touchEndXY.clientX - touchStartXY.clientX;
+                const deltaY = touchEndXY.clientY - touchStartXY.clientY;
+                if (touchEndXY.touchmove) { // no just one touch
+                    if (Math.abs(deltaX) > Math.abs(deltaY)) { // swipe more horizontal
+                        if (deltaX < 0) {
+                            this._moveToNextImage(true)();
+                        } else if (deltaX > 0) {
+                            this._moveToNextImage(false)();
+                        }
+                    } else if ((Math.abs(deltaX) < Math.abs(deltaY)) && (deltaY < 0) && (Math.abs(deltaY) > 10)) { // vertical swipe from bottom to top
+                        imgViewer
+                            .animate({ top: '25%' }, () => {
+                                this.close();
+                                imgViewer
+                                    .animate({ top: '50%' });
+                            });
+                    }
+                    touchEndXY.touchmove = false;
+                }
+            };
+
+            return function(e) {
+                e.preventDefault();
+                const touch = e.originalEvent.touches[0];
+                if (e.type === 'touchstart') {
+                    touchStartXY.clientX = touch.clientX;
+                    touchStartXY.clientY = touch.clientY;
+                }
+                if (e.type === 'touchmove') {
+                    touchEndXY.touchmove = true;
+                    touchEndXY.clientX = touch.clientX;
+                    touchEndXY.clientY = touch.clientY;
+                }
+                if (e.type === 'touchend') {
+                    swipeHandler();
+                }
+            };
+        }
+
         _zoom() {
             const viewer = this;
             const $viewLayer = this.$viewLayer;
@@ -112,11 +166,11 @@
 
             const zoomOut = () => {
                 clearInterval(scrollImg);
-                $viewLayer.unbind("wheel");
-                $viewLayer.find('img').css("max-height", "100%");
+                $viewLayer.unbind('wheel');
+                $viewLayer.find('img').css('max-height', '100%');
                 $viewLayer.find('img').css('transform', 'translate(-50%, -50%)');
                 $viewLayer.find('img').off('mousemove');
-                $viewLayer.find('img').css("cursor", "default");
+                $viewLayer.find('img').css('cursor', 'default');
                 viewer._isZoomed = false;
                 viewer._arrowsShowHide();
                 translate = -50;
@@ -126,9 +180,7 @@
                 zoomOut();
             });
             return function(e) {
-                $viewLayer.add($zoom).bind("wheel", function() {
-                    return false;
-                });
+                $viewLayer.add($zoom).bind('wheel', () => false);
                 $arrow.hide();
                 $arrowBack.hide();
                 const imgCenter = $($viewLayer).offset().top + $(window).height() / 2;
@@ -142,55 +194,55 @@
                         return Math.ceil((topLineZero - pageY) / zoneHeight);
                     } else if (pageY > bottomLineZero) {
                         return -Math.ceil((pageY - bottomLineZero) / zoneHeight);
-                    };
+                    }
                     return 0;
-                }
+                };
 
                 if (e && !viewer._isZoomed) {
-                    $viewLayer.find('img').css("max-height", "400%");
+                    $viewLayer.find('img').css('max-height', '400%');
                     viewer._isZoomed = true;
-                    $viewLayer.on("wheel", (event) => { // normal scroll by mousewheel
-                        let scrollDirection = event.originalEvent.deltaY;
+                    $viewLayer.on('wheel', (event) => { // normal scroll by mousewheel
+                        const scrollDirection = event.originalEvent.deltaY;
                         if (scrollDirection < 0 && translate < -12) {
                             translate += 1;
-                            $viewLayer.find('img').css('transform', `translate(-50%, ${ translate}%)`);
+                            $viewLayer.find('img').css('transform', `translate(-50%, ${translate}%)`);
                         } else if (scrollDirection > 0 && translate > -88) {
                             translate -= 1;
-                            $viewLayer.find('img').css('transform', `translate(-50%, ${ translate}%)`);
+                            $viewLayer.find('img').css('transform', `translate(-50%, ${translate}%)`);
                         }
                     });
 
                     $viewLayer.find('img').on('mousemove', (event) => { // scroll by position mouse on screeen, you can delete this block if no need it
-                        let mouseNewZone = mouseCurrentZone(event.pageY);
-                        if (mouseLastZone !== mouseNewZone) { //mouse cursor change zone
+                        const mouseNewZone = mouseCurrentZone(event.pageY);
+                        if (mouseLastZone !== mouseNewZone) { // mouse cursor change zone
                             mouseLastZone = mouseNewZone;
-                            let speed = 400 / Math.abs(Math.pow(mouseNewZone, 3));
+                            const speed = 400 / Math.abs(Math.pow(mouseNewZone, 3));
                             clearInterval(scrollImg);
                             if (mouseNewZone > 0) {
-                                scrollImg = setInterval(function() {
+                                scrollImg = setInterval(() => {
                                     if (translate < -12) {
                                         translate += 0.02;
-                                        $viewLayer.find('img').css('transform', `translate(-50%, ${ translate}%)`);
+                                        $viewLayer.find('img').css('transform', `translate(-50%, ${translate}%)`);
                                     }
                                 }, speed);
-                                $viewLayer.find('img').css("cursor", "n-resize");
+                                $viewLayer.find('img').css('cursor', 'n-resize');
                             } else if (mouseNewZone < 0) {
-                                scrollImg = setInterval(function() {
+                                scrollImg = setInterval(() => {
                                     if (translate > -88) {
                                         translate -= 0.02;
-                                        $viewLayer.find('img').css('transform', `translate(-50%, ${ translate}%)`);
+                                        $viewLayer.find('img').css('transform', `translate(-50%, ${translate}%)`);
                                     }
                                 }, speed);
-                                $viewLayer.find('img').css("cursor", "s-resize");
+                                $viewLayer.find('img').css('cursor', 's-resize');
                             } else {
                                 clearInterval(scrollImg);
-                                $viewLayer.find('img').css("cursor", "default");
+                                $viewLayer.find('img').css('cursor', 'default');
                             }
                         }
                     });
                 } else if (e) {
                     zoomOut();
-                };
+                }
             };
         }
 
@@ -213,12 +265,12 @@
                     viewer.$arrowBack.hide();
                 } else {
                     viewer.$arrowBack.show();
-                };
+                }
                 if (nextImgId === (imgLength - 1)) {
                     viewer.$arrow.hide();
                 } else {
                     viewer.$arrow.show();
-                };
+                }
             }
         }
 
@@ -233,29 +285,45 @@
                     animateSetPointTwo = '-100%';
                 }
                 let nextImgId = viewer._cur;
+                const imgViewer = viewer.$viewLayer.find('img');
+                const moveBackOnFirstImg = !moveForward && (nextImgId === 0);
+                const moveForwardOnLastImg = moveForward && (nextImgId === imgLength);
                 if (moveForward && nextImgId !== imgLength) {
                     nextImgId = ++viewer._cur;
-                } else if (nextImgId !== 0) {
+                } else if (!moveForward && nextImgId !== 0) {
                     nextImgId = --viewer._cur;
-                };
-                const imgViewer = viewer.$viewLayer.find('img');
-                const fullImgUrl = viewer._context[nextImgId].href;
-                imgViewer
-                    .animate({ left: animateSetPointOne }, () => {
+                }
+                if (moveBackOnFirstImg || moveForwardOnLastImg) {
+                    if (moveBackOnFirstImg) {
                         imgViewer
-                            .animate({ left: animateSetPointTwo }, 0);
-                        $.when(
-                            loadImage(fullImgUrl)
-                        ).then(() => {
-                            const fsImg = viewer._getFsImg().get(0);
-                            fsImg.src = fullImgUrl;
+                            .animate({ left: '75%' }, () => {
+                                imgViewer
+                                    .animate({ left: '50%' });
+                            });
+                    } else {
+                        imgViewer
+                            .animate({ left: '25%' }, () => {
+                                imgViewer
+                                    .animate({ left: '50%' });
+                            });
+                    }
+                } else {
+                    const fullImgUrl = viewer._context[nextImgId].href;
+                    imgViewer
+                        .animate({ left: animateSetPointOne }, () => {
                             imgViewer
-                                .animate({ left: '50%' }, () => {
-                                    viewer._zoomShowHide();
-                                    viewer._arrowsShowHide();
-                                });
+                                .animate({ left: animateSetPointTwo }, 0);
+                            $.when(loadImage(fullImgUrl)).then(() => {
+                                const fsImg = viewer._getFsImg().get(0);
+                                fsImg.src = fullImgUrl;
+                                imgViewer
+                                    .animate({ left: '50%' }, () => {
+                                        viewer._zoomShowHide();
+                                        viewer._arrowsShowHide();
+                                    });
+                            });
                         });
-                    })
+                }
             };
         }
 
@@ -282,20 +350,21 @@
             fxImage.height = srcH;
 
             const $fxImage = $(fxImage).addClass('full-size-fx-img').css({
-                top: $srcImg.offset().top - $(document).scrollTop(),
-                left: $srcImg.offset().left - $(document).scrollLeft()
-            }).appendTo('body').animate({
-                'top': (winH - imgH) / 2,
-                'left': (winW - imgW) / 2,
-                'width': imgW,
-                'height': imgH
-            }, {
-                duration: 500, //TODO: hardcode; move to options
-                easing: 'easeInQuad', //TODO: hardcode; move to options
-                complete: function() {
-                    dfr.resolve($fxImage);
-                }
-            });
+                    top: $srcImg.offset().top - $(document).scrollTop(),
+                    left: $srcImg.offset().left - $(document).scrollLeft(),
+                }).appendTo('body')
+                .animate({
+                    top: (winH - imgH) / 2,
+                    left: (winW - imgW) / 2,
+                    width: imgW,
+                    height: imgH,
+                }, {
+                    duration: 500, // TODO: hardcode; move to options
+                    easing: 'easeInQuad', // TODO: hardcode; move to options
+                    complete() {
+                        dfr.resolve($fxImage);
+                    },
+                });
             return dfr.promise();
         }
 
@@ -328,7 +397,7 @@
                 e.preventDefault();
                 viewer._cur = $clicked.data('fsViewerIndex');
                 const fxStop = viewer._animateFs($clicked.find('img:first'));
-                viewer.$fadingLayer.fadeIn(1000); //TODO: hardcode; move to options
+                viewer.$fadingLayer.fadeIn(1000); // TODO: hardcode; move to options
                 fxStop.then(($fxImg) => {
                     const fsImg = viewer._getFsImg().get(0);
                     fsImg.src = $fxImg.get(0).src;
@@ -344,16 +413,12 @@
                     viewer._checkAndShowCaption($clicked);
                     viewer._galleryTools();
                 });
-
             };
         }
-
     }
 
 
     $.fn.fsViewer = function(options) {
         return new Viewer($(this));
     };
-
-
-})(window.jQuery);
+}(window.jQuery));
