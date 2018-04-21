@@ -145,18 +145,22 @@
                 // if (e.originalEvent.touches.length === 2) {
                 //     alert('test');
                 // }
-                const touch = e.originalEvent.touches[0];
-                if (e.type === 'touchstart') {
-                    touchStartXY.clientX = touch.clientX;
-                    touchStartXY.clientY = touch.clientY;
-                }
-                if (e.type === 'touchmove') {
-                    touchEndXY.touchmove = true;
-                    touchEndXY.clientX = touch.clientX;
-                    touchEndXY.clientY = touch.clientY;
-                }
-                if (e.type === 'touchend') {
-                    swipeHandler();
+                console.log(e.originalEvent.touches.length);
+                if (e.originalEvent.touches.length <= 1) {
+                    e.preventDefault();
+                    const touch = e.originalEvent.touches[0];
+                    if (e.type === 'touchstart') {
+                        touchStartXY.clientX = touch.clientX;
+                        touchStartXY.clientY = touch.clientY;
+                    }
+                    if (e.type === 'touchmove') {
+                        touchEndXY.touchmove = true;
+                        touchEndXY.clientX = touch.clientX;
+                        touchEndXY.clientY = touch.clientY;
+                    }
+                    if (e.type === 'touchend') {
+                        swipeHandler();
+                    }
                 }
             };
         }
