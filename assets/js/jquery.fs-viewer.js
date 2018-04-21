@@ -143,7 +143,7 @@
             return function(e) {
                 // e.preventDefault();
                 if (e.originalEvent.touches.length === 2) {
-                    return false;
+                    return true;
                 }
                 console.log(e.originalEvent.touches.length);
                 if (e.originalEvent.touches.length <= 1) {
