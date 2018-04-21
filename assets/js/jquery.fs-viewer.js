@@ -150,9 +150,12 @@
 
             return function(e) {
                 e.preventDefault();
-                if (e.originalEvent.touches.length === 2) {
+                if (e.originalEvent.targetTouches.length === 2) {
+                    alert('1');
                     zoomHandler();
                 }
+                console.log(e);
+                console.log(e.originalEvent.targetTouches.length);
                 console.log(e.originalEvent.touches.length);
                 if (e.originalEvent.touches.length <= 1) {
                     const touch = e.originalEvent.touches[0];
