@@ -117,10 +117,10 @@
             const touchStartXY = {};
             const touchEndXY = {};
             const swipeHandler = () => {
-                const viewer = this;
-                const imgViewer = viewer.$viewLayer.find('img');
                 const deltaX = touchEndXY.clientX - touchStartXY.clientX;
                 const deltaY = touchEndXY.clientY - touchStartXY.clientY;
+                const viewer = this;
+                const imgViewer = viewer.$viewLayer.find('img');
                 if (touchEndXY.touchmove) { // no just one touch
                     if (Math.abs(deltaX) > Math.abs(deltaY)) { // swipe more horizontal
                         if (deltaX < 0) {
@@ -138,16 +138,23 @@
                     }
                     touchEndXY.touchmove = false;
                 }
+
+                const zoomHandler = () => {
+                    const viewer = this;
+                    const imgViewer = viewer.$viewLayer.find('img');
+                    imgViewer
+                        .css('transform', 'scale(2)');
+                }
+
             };
 
             return function(e) {
-                // e.preventDefault();
+                e.preventDefault();
                 if (e.originalEvent.touches.length === 2) {
-                    return true;
+                    zoomHandler();
                 }
                 console.log(e.originalEvent.touches.length);
                 if (e.originalEvent.touches.length <= 1) {
-                    e.preventDefault();
                     const touch = e.originalEvent.touches[0];
                     if (e.type === 'touchstart') {
                         touchStartXY.clientX = touch.clientX;
