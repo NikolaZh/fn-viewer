@@ -151,7 +151,7 @@
             return function(e) {
                 e.preventDefault();
                 if (e.originalEvent.targetTouches.length > 1) {
-                    alert('1');
+                    // alert('1');
                     zoomHandler();
                 }
                 console.log(e);
