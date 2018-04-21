@@ -142,9 +142,9 @@
 
             return function(e) {
                 // e.preventDefault();
-                // if (e.originalEvent.touches.length === 2) {
-                //     alert('test');
-                // }
+                if (e.originalEvent.touches.length === 2) {
+                    return false;
+                }
                 console.log(e.originalEvent.touches.length);
                 if (e.originalEvent.touches.length <= 1) {
                     e.preventDefault();
@@ -160,7 +160,6 @@
                     }
                     if (e.type === 'touchend') {
                         swipeHandler();
-                        e.stopPropagation();
                     }
                 }
             };
