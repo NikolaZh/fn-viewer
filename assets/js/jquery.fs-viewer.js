@@ -160,6 +160,7 @@
                     }
                     if (e.type === 'touchend') {
                         swipeHandler();
+                        e.stopPropagation();
                     }
                 }
             };
