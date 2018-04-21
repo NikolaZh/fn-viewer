@@ -142,9 +142,8 @@
                 const zoomHandler = () => {
                     const viewer = this;
                     const imgViewer = viewer.$viewLayer.find('img');
-                    // imgViewer
-                    //     .css('transform', 'scale(2)');
-                    alert('zoom');
+                    imgViewer
+                        .animate({ top: '150%' });
                 }
 
             };
