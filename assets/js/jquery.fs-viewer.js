@@ -163,7 +163,7 @@
                     imgZoomed = false;
                 }
                 imgViewer
-                    .css({ transform: `translate(-50%,-50%) scale(${scale})` });
+                    .css({ transform: `translate(${translateX}%,${translateY}%) scale(${scale})` });
             }
 
             const exploreZoomedImgHandler = () => {
@@ -171,8 +171,8 @@
                 const imgViewer = viewer.$viewLayer.find('img');
                 const deltaX = touchEndXY.clientX - touchStartXY.clientX;
                 const deltaY = touchEndXY.clientY - touchStartXY.clientY;
-                translateX += deltaX / 15;
-                translateY += deltaY / 15;
+                translateX += deltaX / 20;
+                translateY += deltaY / 20;
                 imgViewer
                     .css({ transform: `translate(${translateX}%,${translateY}%) scale(${scale})` });
             }
