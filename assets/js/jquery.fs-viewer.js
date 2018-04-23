@@ -116,6 +116,7 @@
         _mobileHandler() {
             const touchStartXY = {};
             const touchEndXY = {};
+            const isZoomed = false;
             const swipeHandler = () => {
                 const deltaX = touchEndXY.clientX - touchStartXY.clientX;
                 const deltaY = touchEndXY.clientY - touchStartXY.clientY;
@@ -146,6 +147,7 @@
                 const imgViewer = viewer.$viewLayer.find('img');
                 imgViewer
                     .css({ transform: 'translate(-50%,-50%) scale(2)' });
+                isZoomed = true;
             }
 
             return function(e) {
@@ -160,7 +162,6 @@
                         touchStartXY.clientX2 = touch2.clientX;
                         touchStartXY.clientY2 = touch2.clientY;
                     }
-
                 }
                 if (e.type === 'touchmove') {
                     touchEndXY.touchmove = true;
@@ -172,7 +173,7 @@
                         zoomHandler();
                     }
                 }
-                if (e.type === 'touchend') {
+                if (e.type === 'touchend' && !isZoomed) {
                     swipeHandler();
                 }
 
