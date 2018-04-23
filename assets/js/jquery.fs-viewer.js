@@ -139,14 +139,21 @@
                     }
                     touchEndXY.touchmove = false;
                 }
-
             };
 
             const zoomHandler = () => {
                 const viewer = this;
                 const imgViewer = viewer.$viewLayer.find('img');
+                const deltaXStart = touchStartXY.clientX2 - touchStartXY.clientX; // coordinates of 2 points at the start of event
+                const deltaYStart = touchStartXY.clientY2 - touchStartXY.clientY;
+                const deltaXEnd = touchEndXY.clientX2 - touchEndXY.clientX; // coordinates of 2 points at the end of event
+                const deltaYEnd = touchEndXY.clientY2 - touchEndXY.clientY;
+                const distanceStart = Math.sqrt(Math.pow(deltaXStart, 2) + Math.pow(deltaYStart, 2));
+                const distanceEnd = Math.sqrt(Math.pow(deltaXEnd, 2) + Math.pow(deltaYEnd, 2));
+                const deltaDistance = distanceEnd - distanceStart;
+                const scale = 1 + (1 / deltaDistance) * 2;
                 imgViewer
-                    .css({ transform: 'translate(-50%,-50%) scale(2)' });
+                    .css({ transform: `translate(-50%,-50%) scale(${scale})` });
                 isZoomed = true;
             }
 
@@ -167,8 +174,8 @@
                     touchEndXY.clientX = touch.clientX;
                     touchEndXY.clientY = touch.clientY;
                     if (e.originalEvent.touches.length === 2) {
-                        touchStartXY.clientX2 = touch2.clientX;
-                        touchStartXY.clientY2 = touch2.clientY;
+                        touchEndXY.clientX2 = touch2.clientX;
+                        touchEndXY.clientY2 = touch2.clientY;
                         zoomHandler();
                     }
                 }
