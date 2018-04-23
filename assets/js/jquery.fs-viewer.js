@@ -154,7 +154,7 @@
                 const distanceStart = Math.sqrt(Math.pow(deltaXStart, 2) + Math.pow(deltaYStart, 2));
                 const distanceEnd = Math.sqrt(Math.pow(deltaXEnd, 2) + Math.pow(deltaYEnd, 2));
                 const deltaDistance = (distanceEnd - distanceStart);
-                scale += (deltaDistance / 12);
+                scale += (10 / deltaDistance);
                 if (scale < 1) {
                     scale = 1;
                     isZoomed = false;
