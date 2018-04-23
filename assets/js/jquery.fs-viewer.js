@@ -165,6 +165,8 @@
 
             return function(e) {
                 e.preventDefault();
+                console.log(e);
+                console.log(e.originalEvent.touches.length);
                 const numberOfTouches = e.originalEvent.touches.length;
                 const touch = e.originalEvent.touches[0];
                 const touch2 = e.originalEvent.touches[1];
@@ -186,7 +188,7 @@
                         zoomHandler();
                     }
                 }
-                if (e.type === 'touchend' && !isZoomed && numberOfTouches !== 2) {
+                if (e.type === 'touchend' && !isZoomed && e.originalEvent.changedTouches.length === 1) {
                     swipeHandler();
                 }
             };
