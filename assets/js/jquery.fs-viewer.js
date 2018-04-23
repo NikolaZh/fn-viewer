@@ -117,6 +117,7 @@
             const touchStartXY = {};
             const touchEndXY = {};
             let isZoomed = false;
+            let scale = 1;
             const swipeHandler = () => {
                 const deltaX = touchEndXY.clientX - touchStartXY.clientX;
                 const deltaY = touchEndXY.clientY - touchStartXY.clientY;
@@ -151,8 +152,8 @@
                 const deltaYEnd = touchEndXY.clientY2 - touchEndXY.clientY;
                 const distanceStart = Math.sqrt(Math.pow(deltaXStart, 2) + Math.pow(deltaYStart, 2));
                 const distanceEnd = Math.sqrt(Math.pow(deltaXEnd, 2) + Math.pow(deltaYEnd, 2));
-                const deltaDistance = Math.abs(distanceStart - distanceEnd);
-                let scale = 1 + (1 / deltaDistance) * 2;
+                const deltaDistance = (distanceStart - distanceEnd);
+                scale += (10 / deltaDistance) * 2;
                 if (scale < 1) {
                     scale = 1;
                     isZoomed = false;
