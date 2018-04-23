@@ -145,7 +145,7 @@
                 const viewer = this;
                 const imgViewer = viewer.$viewLayer.find('img');
                 imgViewer
-                    .animate({ left: '150%' });
+                    .css({ transform: 'translate(-50%,-50%) scale(2)' });
             }
 
             return function(e) {
