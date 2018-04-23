@@ -166,6 +166,10 @@
                 }
                 imgViewer
                     .css({ transform: `translate(${translateX}%,${translateY}%) scale(${scale})` });
+                touchStartXY.clientX = touchEndXY.clientX;
+                touchStartXY.clientY = touchEndXY.clientY;
+                touchStartXY.clientX2 = touchEndXY.clientX2;
+                touchStartXY.clientY2 = touchEndXY.clientY2;
             }
 
             const exploreZoomedImgHandler = () => {
