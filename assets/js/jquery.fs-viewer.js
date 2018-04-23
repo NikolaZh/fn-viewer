@@ -134,7 +134,7 @@
                         } else if (deltaX > 0) {
                             this._moveToNextImage(false)();
                         }
-                    } else if ((Math.abs(deltaX) < Math.abs(deltaY)) && (deltaY < 0) && (Math.abs(deltaY) > 10)) { // vertical swipe from bottom to top
+                    } else if ((Math.abs(deltaX) < Math.abs(deltaY)) && (deltaY < 0) && (Math.abs(deltaY) > 100)) { // vertical swipe from bottom to top
                         imgViewer
                             .animate({ top: '25%' }, () => {
                                 this.close();
