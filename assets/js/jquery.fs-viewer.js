@@ -158,7 +158,7 @@
                 const distanceEnd = Math.sqrt(Math.pow(deltaXEnd, 2) + Math.pow(deltaYEnd, 2));
                 const deltaDistance = (distanceEnd - distanceStart);
                 scale += (deltaDistance / 1000);
-                if (scale < 1) {
+                if (scale <= 1) {
                     scale = 1;
                     translateX = -50;
                     translateY = -50;
