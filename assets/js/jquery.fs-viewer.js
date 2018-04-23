@@ -119,6 +119,8 @@
             let touchNumberPrevios = 0;
             let imgZoomed = false;
             let scale = 1;
+            let translateX = -50;
+            let translateY = -50;
 
             const swipeHandler = () => {
                 const deltaX = touchEndXY.clientX - touchStartXY.clientX;
@@ -169,8 +171,10 @@
                 const imgViewer = viewer.$viewLayer.find('img');
                 const deltaX = touchEndXY.clientX - touchStartXY.clientX;
                 const deltaY = touchEndXY.clientY - touchStartXY.clientY;
+                translateX += deltaX / 5;
+                translateY += deltaY / 5;
                 imgViewer
-                    .css({ transform: `translate(${-50 + deltaX/20}%,${-50 + deltaY/20}%) scale(${scale})` });
+                    .css({ transform: `translate(${translateX}%,${translateY}%) scale(${scale})` });
             }
 
             return function(e) {
