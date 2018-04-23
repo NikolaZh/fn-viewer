@@ -160,6 +160,8 @@
                 scale += (deltaDistance / 1000);
                 if (scale < 1) {
                     scale = 1;
+                    translateX = -50;
+                    translateY = -50;
                     imgZoomed = false;
                 }
                 imgViewer
@@ -171,8 +173,8 @@
                 const imgViewer = viewer.$viewLayer.find('img');
                 const deltaX = touchEndXY.clientX - touchStartXY.clientX;
                 const deltaY = touchEndXY.clientY - touchStartXY.clientY;
-                translateX += deltaX / 20;
-                translateY += deltaY / 20;
+                translateX += deltaX / 25;
+                translateY += deltaY / 25;
                 imgViewer
                     .css({ transform: `translate(${translateX}%,${translateY}%) scale(${scale})` });
             }
