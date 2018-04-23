@@ -143,35 +143,34 @@
                     const viewer = this;
                     const imgViewer = viewer.$viewLayer.find('img');
                     imgViewer
-                        .animate({ top: '150%' });
+                        .animate({ left: '150%' });
                 }
 
             };
 
             return function(e) {
                 e.preventDefault();
-                if (e.originalEvent.targetTouches.length > 1) {
-                    // alert('1');
-                    zoomHandler();
+                if (e.originalEvent.touches.length > 1) {
+                    alert('1');
                 }
                 console.log(e);
                 console.log(e.originalEvent.targetTouches.length);
                 console.log(e.originalEvent.touches.length);
-                if (e.originalEvent.touches.length <= 1) {
-                    const touch = e.originalEvent.touches[0];
-                    if (e.type === 'touchstart') {
-                        touchStartXY.clientX = touch.clientX;
-                        touchStartXY.clientY = touch.clientY;
-                    }
-                    if (e.type === 'touchmove') {
-                        touchEndXY.touchmove = true;
-                        touchEndXY.clientX = touch.clientX;
-                        touchEndXY.clientY = touch.clientY;
-                    }
-                    if (e.type === 'touchend') {
-                        swipeHandler();
-                    }
-                }
+                // if (e.originalEvent.touches.length <= 1) {
+                //     const touch = e.originalEvent.touches[0];
+                //     if (e.type === 'touchstart') {
+                //         touchStartXY.clientX = touch.clientX;
+                //         touchStartXY.clientY = touch.clientY;
+                //     }
+                //     if (e.type === 'touchmove') {
+                //         touchEndXY.touchmove = true;
+                //         touchEndXY.clientX = touch.clientX;
+                //         touchEndXY.clientY = touch.clientY;
+                //     }
+                //     if (e.type === 'touchend') {
+                //         swipeHandler();
+                //     }
+                // }
             };
         }
 
