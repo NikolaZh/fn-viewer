@@ -165,12 +165,13 @@
 
             return function(e) {
                 e.preventDefault();
+                const numberOfTouches = e.originalEvent.touches.length;
                 const touch = e.originalEvent.touches[0];
                 const touch2 = e.originalEvent.touches[1];
                 if (e.type === 'touchstart') { // combine if 'touchstart' || 'touchmove' does not work. why?
                     touchStartXY.clientX = touch.clientX;
                     touchStartXY.clientY = touch.clientY;
-                    if (e.originalEvent.touches.length === 2) {
+                    if (numberOfTouches === 2) {
                         touchStartXY.clientX2 = touch2.clientX;
                         touchStartXY.clientY2 = touch2.clientY;
                     }
@@ -179,16 +180,15 @@
                     touchEndXY.touchmove = true;
                     touchEndXY.clientX = touch.clientX;
                     touchEndXY.clientY = touch.clientY;
-                    if (e.originalEvent.touches.length === 2) {
+                    if (numberOfTouches === 2) {
                         touchEndXY.clientX2 = touch2.clientX;
                         touchEndXY.clientY2 = touch2.clientY;
                         zoomHandler();
                     }
                 }
-                if (e.type === 'touchend' && !isZoomed) {
+                if (e.type === 'touchend' && !isZoomed && numberOfTouches !== 2) {
                     swipeHandler();
                 }
-
             };
         }
 
