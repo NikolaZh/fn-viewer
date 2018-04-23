@@ -116,8 +116,8 @@
         _mobileHandler() {
             const touchStartXY = {};
             const touchEndXY = {};
-            let touchNumber = 0;
-            let isZoomed = false;
+            let touchNumberPrevios = 0;
+            let imgZoomed = false;
             let scale = 1;
 
             const swipeHandler = () => {
@@ -145,7 +145,7 @@
             };
 
             const zoomHandler = () => {
-                isZoomed = true;
+                imgZoomed = true;
                 const viewer = this;
                 const imgViewer = viewer.$viewLayer.find('img');
                 const deltaXStart = touchStartXY.clientX2 - touchStartXY.clientX; // coordinates of 2 points at the start of event
@@ -158,20 +158,27 @@
                 scale += (deltaDistance / 1000);
                 if (scale < 1) {
                     scale = 1;
-                    isZoomed = false;
+                    imgZoomed = false;
                 }
                 imgViewer
                     .css({ transform: `translate(-50%,-50%) scale(${scale})` });
             }
 
+            const exploreZoomedImgHandler = () => {
+                const viewer = this;
+                const imgViewer = viewer.$viewLayer.find('img');
+                const deltaX = touchEndXY.clientX - touchStartXY.clientX;
+                const deltaY = touchEndXY.clientY - touchStartXY.clientY;
+                imgViewer
+                    .css({ transform: `translate(${-50 + deltaX/20}%,${-50 + deltaY/20}%) ` });
+            }
+
             return function(e) {
                 e.preventDefault();
-                console.log(e);
-                console.log(e.originalEvent.touches.length);
                 const numberOfTouches = e.originalEvent.touches.length;
                 const touch = e.originalEvent.touches[0];
                 const touch2 = e.originalEvent.touches[1];
-                if (e.type === 'touchstart') { // combine if 'touchstart' || 'touchmove' does not work. why?
+                if (e.type === 'touchstart') { // combine if 'touchstart' || 'touchmove' don't work. why?
                     touchStartXY.clientX = touch.clientX;
                     touchStartXY.clientY = touch.clientY;
                     if (numberOfTouches === 2) {
@@ -183,15 +190,18 @@
                     touchEndXY.touchmove = true;
                     touchEndXY.clientX = touch.clientX;
                     touchEndXY.clientY = touch.clientY;
-                    touchNumber = 1;
+                    touchNumberPrevios = 1;
+                    if (imgZoomed && numberOfTouches === 1) {
+                        exploreZoomedImgHandler();
+                    }
                     if (numberOfTouches === 2) {
                         touchEndXY.clientX2 = touch2.clientX;
                         touchEndXY.clientY2 = touch2.clientY;
-                        touchNumber = 2;
+                        touchNumberPrevios = 2;
                         zoomHandler();
                     }
                 }
-                if (e.type === 'touchend' && !isZoomed && touchNumber === 1) {
+                if (e.type === 'touchend' && !imgZoomed && touchNumber === 1) {
                     swipeHandler();
                 }
             };
