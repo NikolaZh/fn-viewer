@@ -177,10 +177,13 @@
                 translateY += deltaY / 25;
                 imgViewer
                     .css({ transform: `translate(${translateX}%,${translateY}%) scale(${scale})` });
+                touchStartXY.clientX = touchEndXY.clientX;
+                touchStartXY.clientY = touchEndXY.clientY;
             }
 
             return function(e) {
                 e.preventDefault();
+                console.log(e)
                 const numberOfTouches = e.originalEvent.touches.length;
                 const touch = e.originalEvent.touches[0];
                 const touch2 = e.originalEvent.touches[1];
