@@ -116,13 +116,13 @@
         _mobileHandler() {
             const touchStartXY = {};
             const touchEndXY = {};
-            const isZoomed = false;
+            let isZoomed = false;
             const swipeHandler = () => {
                 const deltaX = touchEndXY.clientX - touchStartXY.clientX;
                 const deltaY = touchEndXY.clientY - touchStartXY.clientY;
                 const viewer = this;
                 const imgViewer = viewer.$viewLayer.find('img');
-                if (touchEndXY.touchmove) { // no just one touch
+                if (touchEndXY.touchmove) { // no just one touch and no zoom
                     if (Math.abs(deltaX) > Math.abs(deltaY)) { // swipe more horizontal
                         if (deltaX < 0) {
                             this._moveToNextImage(true)();
