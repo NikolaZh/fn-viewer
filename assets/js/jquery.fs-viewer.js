@@ -116,6 +116,7 @@
         _mobileHandler() {
             const touchStartXY = {};
             const touchEndXY = {};
+            let touchNumber = 0;
             let isZoomed = false;
             let scale = 1;
 
@@ -182,13 +183,15 @@
                     touchEndXY.touchmove = true;
                     touchEndXY.clientX = touch.clientX;
                     touchEndXY.clientY = touch.clientY;
+                    touchNumber = 1;
                     if (numberOfTouches === 2) {
                         touchEndXY.clientX2 = touch2.clientX;
                         touchEndXY.clientY2 = touch2.clientY;
+                        touchNumber = 2;
                         zoomHandler();
                     }
                 }
-                if (e.type === 'touchend' && !isZoomed && e.originalEvent.changedTouches.length === 1) {
+                if (e.type === 'touchend' && !isZoomed && touchNumber === 1) {
                     swipeHandler();
                 }
             };
