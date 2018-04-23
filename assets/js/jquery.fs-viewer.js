@@ -170,7 +170,7 @@
                 const deltaX = touchEndXY.clientX - touchStartXY.clientX;
                 const deltaY = touchEndXY.clientY - touchStartXY.clientY;
                 imgViewer
-                    .css({ transform: `translate(${-50 + deltaX/20}%,${-50 + deltaY/20}%) ` });
+                    .css({ transform: `translate(${-50 + deltaX/20}%,${-50 + deltaY/20}%) scale(${scale})` });
             }
 
             return function(e) {
@@ -201,7 +201,7 @@
                         zoomHandler();
                     }
                 }
-                if (e.type === 'touchend' && !imgZoomed && touchNumber === 1) {
+                if (e.type === 'touchend' && !imgZoomed && touchNumberPrevios === 1) {
                     swipeHandler();
                 }
             };
