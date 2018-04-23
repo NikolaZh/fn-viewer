@@ -154,7 +154,6 @@
                 e.preventDefault();
                 const touch = e.originalEvent.touches[0];
                 const touch2 = e.originalEvent.touches[1];
-                console.log(e.originalEvent.touches.length);
                 if (e.type === 'touchstart') { // combine if 'touchstart' || 'touchmove' does not work. why?
                     touchStartXY.clientX = touch.clientX;
                     touchStartXY.clientY = touch.clientY;
