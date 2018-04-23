@@ -171,8 +171,8 @@
                 const imgViewer = viewer.$viewLayer.find('img');
                 const deltaX = touchEndXY.clientX - touchStartXY.clientX;
                 const deltaY = touchEndXY.clientY - touchStartXY.clientY;
-                translateX += deltaX / 5;
-                translateY += deltaY / 5;
+                translateX += deltaX / 15;
+                translateY += deltaY / 15;
                 imgViewer
                     .css({ transform: `translate(${translateX}%,${translateY}%) scale(${scale})` });
             }
