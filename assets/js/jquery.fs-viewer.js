@@ -142,6 +142,7 @@
             };
 
             const zoomHandler = () => {
+                isZoomed = true;
                 const viewer = this;
                 const imgViewer = viewer.$viewLayer.find('img');
                 const deltaXStart = touchStartXY.clientX2 - touchStartXY.clientX; // coordinates of 2 points at the start of event
@@ -150,11 +151,14 @@
                 const deltaYEnd = touchEndXY.clientY2 - touchEndXY.clientY;
                 const distanceStart = Math.sqrt(Math.pow(deltaXStart, 2) + Math.pow(deltaYStart, 2));
                 const distanceEnd = Math.sqrt(Math.pow(deltaXEnd, 2) + Math.pow(deltaYEnd, 2));
-                const deltaDistance = distanceEnd - distanceStart;
-                const scale = 1 + (1 / deltaDistance) * 2;
+                const deltaDistance = Math.abs(distanceStart - distanceEnd);
+                let scale = 1 + (1 / deltaDistance) * 2;
+                if (scale < 1) {
+                    scale = 1;
+                    isZoomed = false;
+                }
                 imgViewer
                     .css({ transform: `translate(-50%,-50%) scale(${scale})` });
-                isZoomed = true;
             }
 
             return function(e) {
