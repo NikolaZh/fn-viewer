@@ -139,38 +139,43 @@
                     touchEndXY.touchmove = false;
                 }
 
-                const zoomHandler = () => {
-                    const viewer = this;
-                    const imgViewer = viewer.$viewLayer.find('img');
-                    imgViewer
-                        .animate({ left: '150%' });
-                }
-
             };
+
+            const zoomHandler = () => {
+                const viewer = this;
+                const imgViewer = viewer.$viewLayer.find('img');
+                imgViewer
+                    .animate({ left: '150%' });
+            }
 
             return function(e) {
                 e.preventDefault();
-                if (e.originalEvent.touches.length > 1) {
-                    alert('1');
-                }
-                console.log(e);
-                console.log(e.originalEvent.targetTouches.length);
+                const touch = e.originalEvent.touches[0];
+                const touch2 = e.originalEvent.touches[1];
                 console.log(e.originalEvent.touches.length);
-                // if (e.originalEvent.touches.length <= 1) {
-                //     const touch = e.originalEvent.touches[0];
-                //     if (e.type === 'touchstart') {
-                //         touchStartXY.clientX = touch.clientX;
-                //         touchStartXY.clientY = touch.clientY;
-                //     }
-                //     if (e.type === 'touchmove') {
-                //         touchEndXY.touchmove = true;
-                //         touchEndXY.clientX = touch.clientX;
-                //         touchEndXY.clientY = touch.clientY;
-                //     }
-                //     if (e.type === 'touchend') {
-                //         swipeHandler();
-                //     }
-                // }
+                if (e.type === 'touchstart') { // combine if 'touchstart' || 'touchmove' does not work. why?
+                    touchStartXY.clientX = touch.clientX;
+                    touchStartXY.clientY = touch.clientY;
+                    if (e.originalEvent.touches.length === 2) {
+                        touchStartXY.clientX2 = touch2.clientX;
+                        touchStartXY.clientY2 = touch2.clientY;
+                    }
+
+                }
+                if (e.type === 'touchmove') {
+                    touchEndXY.touchmove = true;
+                    touchEndXY.clientX = touch.clientX;
+                    touchEndXY.clientY = touch.clientY;
+                    if (e.originalEvent.touches.length === 2) {
+                        touchStartXY.clientX2 = touch2.clientX;
+                        touchStartXY.clientY2 = touch2.clientY;
+                        zoomHandler();
+                    }
+                }
+                if (e.type === 'touchend') {
+                    swipeHandler();
+                }
+
             };
         }
 
