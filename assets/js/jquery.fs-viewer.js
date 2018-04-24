@@ -168,22 +168,22 @@
                     translateY = -50;
                     imgZoomed = false;
                 }
-                // const pinchPoint = {
-                //     pinchX: (touchStartXY.clientX + touchStartXY.clientX2) / 2,
-                //     pinchY: (touchStartXY.clientY + ouchStartXY.clientY2) / 2,
-                // }
+                const pinchPoint = {
+                    pinchX: (touchStartXY.clientX + touchStartXY.clientX2) / 2,
+                    pinchY: (touchStartXY.clientY + touchStartXY.clientY2) / 2,
+                }
 
-                // if (pinchPoint.pinchX < screenCenterX) {
-                //     translateX += (pinchPoint.pinchX * scale) / 100;
-                // } else {
-                //     translateX -= (pinchPoint.pinchX * scale) / 100;
-                // }
+                if (pinchPoint.pinchX < screenCenterX) {
+                    translateX += (pinchPoint.pinchX * scale) / 100;
+                } else {
+                    translateX -= (pinchPoint.pinchX * scale) / 100;
+                }
 
-                // if (pinchPoint.pinchY < screenCenterY) {
-                //     translateY += (pinchPoint.pinchY * scale) / 100;
-                // } else {
-                //     translateY -= (pinchPoint.pinchY * scale) / 100;
-                // }
+                if (pinchPoint.pinchY < screenCenterY) {
+                    translateY += (pinchPoint.pinchY * scale) / 100;
+                } else {
+                    translateY -= (pinchPoint.pinchY * scale) / 100;
+                }
 
 
 
