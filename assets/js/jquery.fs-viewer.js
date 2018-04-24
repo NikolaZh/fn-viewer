@@ -192,20 +192,20 @@
                 }
 
                 if (deltaDistance < 0) {
-                    if (pinchPoint.pinchX < screenCenterX) {
-                        translateX -= (((pinchPoint.pinchX + screenCenterX) * scale) / 1000);
+                    if (translateX < -50) {
+                        translateX += Math.abs(deltaDistance / 100);
                     } else {
-                        translateX += (((pinchPoint.pinchX + screenCenterX) * scale) / 1000);
+                        translateX -= Math.abs(deltaDistance / 100);
                     }
 
-                    if (pinchPoint.pinchY < screenCenterY) {
-                        translateY -= (((pinchPoint.pinchY + screenCenterY) * scale) / 1000);
+                    if (translateY < 0) {
+                        translateY += Math.abs(deltaDistance / 100);
                     } else {
-                        translateY += (((pinchPoint.pinchY + screenCenterY) * scale) / 1000);
+                        translateY -= Math.abs(deltaDistance / 100);
                     }
                 }
 
-                if (scale < 2) {
+                if (scale < 1.5) {
                     translateX = -50;
                     translateY = -50;
                 }
