@@ -174,15 +174,15 @@
                 }
 
                 if (pinchPoint.pinchX < screenCenterX) {
-                    translateX += (pinchPoint.pinchX * scale) / 100;
+                    translateX += ((pinchPoint.pinchX * scale) / 1000);
                 } else {
-                    translateX -= (pinchPoint.pinchX * scale) / 100;
+                    translateX -= ((pinchPoint.pinchX * scale) / 1000);
                 }
 
                 if (pinchPoint.pinchY < screenCenterY) {
-                    translateY += (pinchPoint.pinchY * scale) / 100;
+                    translateY += ((pinchPoint.pinchY * scale) / 1000);
                 } else {
-                    translateY -= (pinchPoint.pinchY * scale) / 100;
+                    translateY -= ((pinchPoint.pinchY * scale) / 1000);
                 }
 
 
