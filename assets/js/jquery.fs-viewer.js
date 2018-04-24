@@ -191,10 +191,24 @@
                     }
                 }
 
-                if (scale < 2) {
-                    translateX = -50;
-                    translateY = -50;
+                if (deltaDistance < 0) {
+                    if (pinchPoint.pinchX < screenCenterX) {
+                        translateX -= (((pinchPoint.pinchX - screenCenterX) * scale) / 1000);
+                    } else {
+                        translateX += (((pinchPoint.pinchX - screenCenterX) * scale) / 1000);
+                    }
+
+                    if (pinchPoint.pinchY < screenCenterY) {
+                        translateY -= (((pinchPoint.pinchY - screenCenterY) * scale) / 1000);
+                    } else {
+                        translateY += (((pinchPoint.pinchY - screenCenterY) * scale) / 1000);
+                    }
                 }
+
+                // if (scale < 2) {
+                //     translateX = -50;
+                //     translateY = -50;
+                // }
 
                 imgViewer
                     .css({ transform: `translate(${translateX}%,${translateY}%) scale(${scale})` });
