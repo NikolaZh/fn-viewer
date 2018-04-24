@@ -217,25 +217,22 @@
                         touchStartXY.clientY2 = touch2.clientY;
                     }
                 }
-                if (numberOfTouches > 1) {
-                    window.preventAction = false;
-                }
                 if (e.type === 'touchmove') {
                     touchEndXY.touchmove = true;
                     touchEndXY.clientX = touch.clientX;
                     touchEndXY.clientY = touch.clientY;
                     touchNumberPrevios = 1;
-                    // if (imgZoomed && numberOfTouches === 1) {
-                    //     exploreZoomedImgHandler();
-                    // }
-                    // if (numberOfTouches === 2) {
-                    //     touchEndXY.clientX2 = touch2.clientX;
-                    //     touchEndXY.clientY2 = touch2.clientY;
-                    //     touchNumberPrevios = 2;
-                    //     zoomHandler();
-                    // }
+                    if (imgZoomed && numberOfTouches === 1) {
+                        exploreZoomedImgHandler();
+                    }
+                    if (numberOfTouches === 2) {
+                        touchEndXY.clientX2 = touch2.clientX;
+                        touchEndXY.clientY2 = touch2.clientY;
+                        touchNumberPrevios = 2;
+                        zoomHandler();
+                    }
                 }
-                if (e.type === 'touchend' && !imgZoomed && touchNumberPrevios === 1 && numberOfTouches !== 2) {
+                if (e.type === 'touchend' && !imgZoomed && touchNumberPrevios === 1) {
                     swipeHandler();
                 }
             };
