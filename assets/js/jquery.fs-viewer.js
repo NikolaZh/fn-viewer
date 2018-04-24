@@ -119,13 +119,8 @@
             let touchNumberPrevios = 0;
             let imgZoomed = false;
             let scale = 1;
-
-            const viewer = this;
-            const imgViewer = viewer.$viewLayer.find('img');
-            const imgCenterX = imgViewer[0].clientWidth / 2;
-            const imgCenterY = imgViewer[0].clientHeight / 2;
-            let translateX = -imgCenterX;
-            let translateY = -imgCenterY;
+            let translateX = -50;
+            let translateY = -50;
             const screenCenterX = $(window).width() / 2;
             const screenCenterY = $(window).height() / 2;
 
@@ -169,8 +164,8 @@
                 const imgCenterY = imgViewer[0].clientHeight / 2;
                 if (scale <= 1) {
                     scale = 1;
-                    translateX = -imgCenterX;
-                    translateY = -imgCenterY;
+                    translateX = -50;
+                    translateY = -50;
                     imgZoomed = false;
                 }
                 const pinchPoint = {
@@ -179,21 +174,21 @@
                 }
 
                 if (pinchPoint.pinchX < screenCenterX) {
-                    translateX += (pinchPoint.pinchX * scale);
+                    translateX += (pinchPoint.pinchX * scale) / 100;
                 } else {
-                    translateX -= (pinchPoint.pinchX * scale);
+                    translateX -= (pinchPoint.pinchX * scale) / 100;
                 }
 
                 if (pinchPoint.pinchY < screenCenterY) {
-                    translateY += (pinchPoint.pinchY * scale);
+                    translateY += (pinchPoint.pinchY * scale) / 100;
                 } else {
-                    translateY -= (pinchPoint.pinchY * scale);
+                    translateY -= (pinchPoint.pinchY * scale) / 100;
                 }
 
 
 
                 imgViewer
-                    .css({ transform: `translate(${translateX}px,${translateY}px) scale(${scale})` });
+                    .css({ transform: `translate(${translateX}%,${translateY}%) scale(${scale})` });
             }
 
             const exploreZoomedImgHandler = () => {
