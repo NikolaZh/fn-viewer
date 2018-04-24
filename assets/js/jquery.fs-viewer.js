@@ -179,15 +179,15 @@
 
                 if (deltaDistance > 0) {
                     if (pinchPoint.pinchX < screenCenterX) {
-                        translateX += (((pinchPoint.pinchX - screenCenterX) * scale) / 20);
+                        translateX += (((pinchPoint.pinchX - screenCenterX) * scale) / 200);
                     } else {
-                        translateX -= (((pinchPoint.pinchX - screenCenterX) * scale) / 20);
+                        translateX -= (((pinchPoint.pinchX - screenCenterX) * scale) / 200);
                     }
 
                     if (pinchPoint.pinchY < screenCenterY) {
-                        translateY += (((pinchPoint.pinchY - screenCenterY) * scale) / 20);
+                        translateY += (((pinchPoint.pinchY - screenCenterY) * scale) / 200);
                     } else {
-                        translateY -= (((pinchPoint.pinchY - screenCenterY) * scale) / 20);
+                        translateY -= (((pinchPoint.pinchY - screenCenterY) * scale) / 200);
                     }
                 }
 
