@@ -119,8 +119,13 @@
             let touchNumberPrevios = 0;
             let imgZoomed = false;
             let scale = 1;
-            let translateX = -50;
-            let translateY = -50;
+
+            const viewer = this;
+            const imgViewer = viewer.$viewLayer.find('img');
+            const imgCenterX = imgViewer[0].clientWidth / 2;
+            const imgCenterY = imgViewer[0].clientHeight / 2;
+            let translateX = -imgCenterX;
+            let translateY = -imgCenterY;
             const screenCenterX = $(window).width() / 2;
             const screenCenterY = $(window).height() / 2;
 
@@ -174,15 +179,21 @@
                 }
 
                 if (pinchPoint.pinchX < screenCenterX) {
-                    translateX += pinchPoint.pinchX * scale;
+                    translateX += (pinchPoint.pinchX * scale);
                 } else {
-                    translateX -= pinchPoint.pinchX * scale;
+                    translateX -= (pinchPoint.pinchX * scale);
+                }
+
+                if (pinchPoint.pinchY < screenCenterY) {
+                    translateY += (pinchPoint.pinchY * scale);
+                } else {
+                    translateY -= (pinchPoint.pinchY * scale);
                 }
 
 
 
                 imgViewer
-                    .css({ transform: `translate(${translateX}%,${translateY}%) scale(${scale})` });
+                    .css({ transform: `translate(${translateX}px,${translateY}px) scale(${scale})` });
             }
 
             const exploreZoomedImgHandler = () => {
