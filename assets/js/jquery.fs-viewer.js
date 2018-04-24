@@ -177,23 +177,19 @@
                 const deltaPinchScrCenterY = pinchPoint.pinchY - screenCenterY;
                 const distancePinchScrCenter = Math.sqrt(Math.pow(deltaPinchScrCenterX, 2) + Math.pow(deltaPinchScrCenterY, 2));
 
-                const translateXStep = (deltaPinchScrCenterX / 5) * scale;
-                const translateYStep = (deltaPinchScrCenterY / 5) * scale;
+                if (deltaDistance > 0) {
+                    if (pinchPoint.pinchX < screenCenterX) {
+                        translateX += (((pinchPoint.pinchX - screenCenterX) * scale) / 1000);
+                    } else {
+                        translateX -= (((pinchPoint.pinchX - screenCenterX) * scale) / 1000);
+                    }
 
-                if (pinchPoint.pinchX < screenCenterX) {
-                    translateX += (((translateXStep - screenCenterX)) / 1000);
-                } else {
-                    translateX -= (((translateXStep + screenCenterX)) / 1000);
+                    if (pinchPoint.pinchY < screenCenterY) {
+                        translateY += (((pinchPoint.pinchY - screenCenterY) * scale) / 1000);
+                    } else {
+                        translateY -= (((pinchPoint.pinchY - screenCenterY) * scale) / 1000);
+                    }
                 }
-
-                if (pinchPoint.pinchY < screenCenterY) {
-                    translateY += (((translateYStep - screenCenterY)) / 1000);
-                } else {
-                    translateY -= (((translateYStep + screenCenterY)) / 1000);
-                }
-
-                screenCenterX -= translateXStep;
-                screenCenterY -= translateYStep;
 
 
                 imgViewer
