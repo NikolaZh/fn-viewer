@@ -200,7 +200,7 @@
                         }
                     }
 
-                    if (!(translateX > -55 && translateX < -45)) {
+                    if (!(translateY > -55 && translateY < -45)) {
                         if (translateY < -50) {
                             translateY += Math.abs(deltaDistance / 20);
                         } else {
