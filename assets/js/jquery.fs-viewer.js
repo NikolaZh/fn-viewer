@@ -205,7 +205,7 @@
             }
 
             return function(e) {
-                // e.preventDefault();
+                e.preventDefault();
                 const numberOfTouches = e.originalEvent.touches.length;
                 const touch = e.originalEvent.touches[0];
                 const touch2 = e.originalEvent.touches[1];
@@ -216,6 +216,9 @@
                         touchStartXY.clientX2 = touch2.clientX;
                         touchStartXY.clientY2 = touch2.clientY;
                     }
+                }
+                if (numberOfTouches > 1) {
+                    window.preventAction = false;
                 }
                 if (e.type === 'touchmove') {
                     touchEndXY.touchmove = true;
