@@ -192,24 +192,24 @@
                 }
 
                 if (deltaDistance < 0) {
-                    if (translateX !== -50) {
+                    if (!(translateX > -55 && translateX < -45)) {
                         if (translateX < -50) {
-                            translateX += Math.abs(deltaDistance / 10);
+                            translateX += Math.abs(deltaDistance / 20);
                         } else {
-                            translateX -= Math.abs(deltaDistance / 10);
+                            translateX -= Math.abs(deltaDistance / 20);
                         }
                     }
 
-                    if (translateY !== -50) {
+                    if (!(translateX > -55 && translateX < -45)) {
                         if (translateY < -50) {
-                            translateY += Math.abs(deltaDistance / 10);
+                            translateY += Math.abs(deltaDistance / 20);
                         } else {
-                            translateY -= Math.abs(deltaDistance / 10);
+                            translateY -= Math.abs(deltaDistance / 20);
                         }
                     }
                 }
 
-                if (scale < 1.5) {
+                if (scale < 1.4) {
                     translateX = -50;
                     translateY = -50;
                 }
