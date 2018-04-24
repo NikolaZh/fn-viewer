@@ -208,7 +208,7 @@
                     }
                 }
 
-                if (scale < 1.2) {
+                if (scale < 1.05) {
                     translateX = -50;
                     translateY = -50;
                 }
