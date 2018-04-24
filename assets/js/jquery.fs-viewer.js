@@ -160,23 +160,15 @@
                 const distanceEnd = Math.sqrt(Math.pow(deltaXEnd, 2) + Math.pow(deltaYEnd, 2));
                 const deltaDistance = (distanceEnd - distanceStart);
                 scale += (deltaDistance / 1000);
-                // const imgCenterX = imgViewer[0].clientWidth / 2;
-                // const imgCenterY = imgViewer[0].clientHeight / 2;
                 if (scale <= 1) {
                     scale = 1;
-                    // translateX = -50;
-                    // translateY = -50;
                     imgZoomed = false;
                 }
                 const pinchPoint = {
                     pinchX: (touchStartXY.clientX + touchStartXY.clientX2) / 2,
                     pinchY: (touchStartXY.clientY + touchStartXY.clientY2) / 2,
                 }
-                const deltaPinchScrCenterX = pinchPoint.pinchX - screenCenterX;
-                const deltaPinchScrCenterY = pinchPoint.pinchY - screenCenterY;
-                const distancePinchScrCenter = Math.sqrt(Math.pow(deltaPinchScrCenterX, 2) + Math.pow(deltaPinchScrCenterY, 2));
-
-                if (deltaDistance > 0) {
+                if (deltaDistance > 0) { // zoom to pinch point
                     if (pinchPoint.pinchX < screenCenterX) {
                         translateX += (((screenCenterX - pinchPoint.pinchX) * scale) / 200);
                     } else {
@@ -190,7 +182,7 @@
                     }
                 }
 
-                if (deltaDistance < 0) {
+                if (deltaDistance < 0) { // unzoom
                     if (!(translateX > -55 && translateX < -45)) {
                         if (translateX < -50) {
                             translateX += Math.abs(deltaDistance / 20);
@@ -198,7 +190,6 @@
                             translateX -= Math.abs(deltaDistance / 20);
                         }
                     }
-
                     if (!(translateY > -55 && translateY < -45)) {
                         if (translateY < -50) {
                             translateY += Math.abs(deltaDistance / 20);
