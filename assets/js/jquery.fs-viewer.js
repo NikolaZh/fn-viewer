@@ -121,6 +121,8 @@
             let scale = 1;
             let translateX = -50;
             let translateY = -50;
+            const screenCenterX = $(window).width() / 2;
+            const screenCenterY = $(window).height() / 2;
 
             const swipeHandler = () => {
                 const deltaX = touchEndXY.clientX - touchStartXY.clientX;
@@ -128,13 +130,13 @@
                 const viewer = this;
                 const imgViewer = viewer.$viewLayer.find('img');
                 if (touchEndXY.touchmove) { // no just one touch and no zoom
-                    if (Math.abs(deltaX) > Math.abs(deltaY)) { // swipe more horizontal
+                    if ((Math.abs(deltaX) > Math.abs(deltaY)) && (Math.abs(deltaX) > 50)) { // swipe more horizontal and no short
                         if (deltaX < 0) {
                             this._moveToNextImage(true)();
                         } else if (deltaX > 0) {
                             this._moveToNextImage(false)();
                         }
-                    } else if ((Math.abs(deltaX) < Math.abs(deltaY)) && (deltaY < 0) && (Math.abs(deltaY) > 100)) { // vertical swipe from bottom to top
+                    } else if ((Math.abs(deltaX) < Math.abs(deltaY)) && (deltaY < 0) && (Math.abs(deltaY) > 100)) { // vertical swipe from bottom to top and no short
                         imgViewer
                             .animate({ top: '25%' }, () => {
                                 this.close();
@@ -158,12 +160,27 @@
                 const distanceEnd = Math.sqrt(Math.pow(deltaXEnd, 2) + Math.pow(deltaYEnd, 2));
                 const deltaDistance = (distanceEnd - distanceStart);
                 scale += (deltaDistance / 1000);
+                const imgCenterX = imgViewer[0].clientWidth / 2;
+                const imgCenterY = imgViewer[0].clientHeight / 2;
                 if (scale <= 1) {
                     scale = 1;
-                    translateX = -50;
-                    translateY = -50;
+                    translateX = -imgCenterX;
+                    translateY = -imgCenterY;
                     imgZoomed = false;
                 }
+                const pinchPoint = {
+                    pinchX: (touchStartXY.clientX + touchStartXY.clientX2) / 2,
+                    pinchY: (touchStartXY.clientY + ouchStartXY.clientY2) / 2,
+                }
+
+                if (pinchPoint.pinchX < screenCenterX) {
+                    translateX += pinchPoint.pinchX * scale;
+                } else {
+                    translateX -= pinchPoint.pinchX * scale;
+                }
+
+
+
                 imgViewer
                     .css({ transform: `translate(${translateX}%,${translateY}%) scale(${scale})` });
             }
@@ -184,6 +201,8 @@
             return function(e) {
                 e.preventDefault();
                 console.log(e)
+                console.log($(window).width());
+                console.log($(window).height());
                 const numberOfTouches = e.originalEvent.touches.length;
                 const touch = e.originalEvent.touches[0];
                 const touch2 = e.originalEvent.touches[1];
