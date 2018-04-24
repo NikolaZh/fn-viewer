@@ -165,8 +165,8 @@
                 // const imgCenterY = imgViewer[0].clientHeight / 2;
                 if (scale <= 1) {
                     scale = 1;
-                    translateX = -50;
-                    translateY = -50;
+                    // translateX = -50;
+                    // translateY = -50;
                     imgZoomed = false;
                 }
                 const pinchPoint = {
@@ -191,6 +191,10 @@
                     }
                 }
 
+                if (scale < 2) {
+                    translateX = -50;
+                    translateY = -50;
+                }
 
                 imgViewer
                     .css({ transform: `translate(${translateX}%,${translateY}%) scale(${scale})` });
