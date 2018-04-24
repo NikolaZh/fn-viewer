@@ -198,7 +198,7 @@
                         translateX -= Math.abs(deltaDistance / 100);
                     }
 
-                    if (translateY < 0) {
+                    if (translateY < -50) {
                         translateY += Math.abs(deltaDistance / 100);
                     } else {
                         translateY -= Math.abs(deltaDistance / 100);
