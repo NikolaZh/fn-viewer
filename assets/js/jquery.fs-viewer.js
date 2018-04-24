@@ -205,10 +205,7 @@
             }
 
             return function(e) {
-                e.preventDefault();
-                console.log(e)
-                console.log($(window).width());
-                console.log($(window).height());
+                // e.preventDefault();
                 const numberOfTouches = e.originalEvent.touches.length;
                 const touch = e.originalEvent.touches[0];
                 const touch2 = e.originalEvent.touches[1];
@@ -235,7 +232,7 @@
                         zoomHandler();
                     }
                 }
-                if (e.type === 'touchend' && !imgZoomed && touchNumberPrevios === 1) {
+                if (e.type === 'touchend' && !imgZoomed && touchNumberPrevios === 1 && numberOfTouches !== 2) {
                     swipeHandler();
                 }
             };
