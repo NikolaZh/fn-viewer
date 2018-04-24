@@ -181,15 +181,15 @@
                 const translateYStep = (deltaPinchScrCenterY / 5) * scale;
 
                 if (pinchPoint.pinchX < screenCenterX) {
-                    translateX += (((translateXStep - screenCenterX) * scale) / 1000);
+                    translateX += (((translateXStep - screenCenterX)) / 1000);
                 } else {
-                    translateX -= (((translateXStep + screenCenterX) * scale) / 1000);
+                    translateX -= (((translateXStep + screenCenterX)) / 1000);
                 }
 
                 if (pinchPoint.pinchY < screenCenterY) {
-                    translateY += (((translateYStep - screenCenterY) * scale) / 1000);
+                    translateY += (((translateYStep - screenCenterY)) / 1000);
                 } else {
-                    translateY -= (((translateYStep + screenCenterY) * scale) / 1000);
+                    translateY -= (((translateYStep + screenCenterY)) / 1000);
                 }
 
                 screenCenterX -= translateXStep;
