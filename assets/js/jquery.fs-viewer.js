@@ -129,7 +129,6 @@
                 const deltaY = touchEndXY.clientY - touchStartXY.clientY;
                 const viewer = this;
                 const imgViewer = viewer.$viewLayer.find('img');
-                console.log(imgViewer);
                 if (touchEndXY.touchmove) { // no just one touch and no zoom
                     if ((Math.abs(deltaX) > Math.abs(deltaY)) && (Math.abs(deltaX) > 50)) { // swipe more horizontal and no short
                         if (deltaX < 0) {
@@ -179,13 +178,13 @@
 
                 if (deltaDistance > 0) {
                     if (pinchPoint.pinchX < screenCenterX) {
-                        translateX += (((pinchPoint.pinchX - screenCenterX) * scale) / 200);
+                        translateX += (((screenCenterX - pinchPoint.pinchX) * scale) / 200);
                     } else {
                         translateX -= (((pinchPoint.pinchX - screenCenterX) * scale) / 200);
                     }
 
                     if (pinchPoint.pinchY < screenCenterY) {
-                        translateY += (((pinchPoint.pinchY - screenCenterY) * scale) / 200);
+                        translateY += (((screenCenterY - pinchPoint.pinchY) * scale) / 200);
                     } else {
                         translateY -= (((pinchPoint.pinchY - screenCenterY) * scale) / 200);
                     }
@@ -209,7 +208,7 @@
                     }
                 }
 
-                if (scale < 1.4) {
+                if (scale < 1.2) {
                     translateX = -50;
                     translateY = -50;
                 }
