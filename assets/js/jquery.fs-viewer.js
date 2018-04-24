@@ -121,8 +121,8 @@
             let scale = 1;
             let translateX = -50;
             let translateY = -50;
-            const screenCenterX = $(window).width() / 2;
-            const screenCenterY = $(window).height() / 2;
+            let screenCenterX = $(window).width() / 2;
+            let screenCenterY = $(window).height() / 2;
 
             const swipeHandler = () => {
                 const deltaX = touchEndXY.clientX - touchStartXY.clientX;
@@ -173,23 +173,24 @@
                     pinchX: (touchStartXY.clientX + touchStartXY.clientX2) / 2,
                     pinchY: (touchStartXY.clientY + touchStartXY.clientY2) / 2,
                 }
+                const deltaPinchScrCenterX = pinchPoint.pinchX - screenCenterX;
+                const deltaPinchScrCenterY = pinchPoint.pinchY - screenCenterY;
+                const distancePinchScrCenter = Math.sqrt(Math.pow(deltaPinchScrCenterX, 2) + Math.pow(deltaPinchScrCenterY, 2));
 
-                let translateXStep = pinchPoint.pinchX * scale;
-                let translateYStep = pinchPoint.pinchY * scale;
+                // const translateXStep = 
 
-                if (deltaDistance > 0) {
-                    if (pinchPoint.pinchX < screenCenterX) {
-                        translateX += (((pinchPoint.pinchX - screenCenterX) * scale) / 1000);
-                    } else {
-                        translateX -= (((pinchPoint.pinchX - screenCenterY) * scale) / 1000);
-                    }
-
-                    if (pinchPoint.pinchY < screenCenterY) {
-                        translateY += ((pinchPoint.pinchY * scale) / 1000);
-                    } else {
-                        translateY -= ((pinchPoint.pinchY * scale) / 1000);
-                    }
+                if (pinchPoint.pinchX < screenCenterX) {
+                    translateX += (((pinchPoint.pinchX - screenCenterX) * scale) / 1000);
+                } else {
+                    translateX -= (((pinchPoint.pinchX + screenCenterX) * scale) / 1000);
                 }
+
+                if (pinchPoint.pinchY < screenCenterY) {
+                    translateY += (((pinchPoint.pinchY - screenCenterY) * scale) / 1000);
+                } else {
+                    translateY -= (((pinchPoint.pinchY + screenCenterY) * scale) / 1000);
+                }
+
 
 
                 imgViewer
