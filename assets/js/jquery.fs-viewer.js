@@ -160,30 +160,30 @@
                 const distanceEnd = Math.sqrt(Math.pow(deltaXEnd, 2) + Math.pow(deltaYEnd, 2));
                 const deltaDistance = (distanceEnd - distanceStart);
                 scale += (deltaDistance / 1000);
-                const imgCenterX = imgViewer[0].clientWidth / 2;
-                const imgCenterY = imgViewer[0].clientHeight / 2;
+                // const imgCenterX = imgViewer[0].clientWidth / 2;
+                // const imgCenterY = imgViewer[0].clientHeight / 2;
                 if (scale <= 1) {
                     scale = 1;
                     translateX = -50;
                     translateY = -50;
                     imgZoomed = false;
                 }
-                const pinchPoint = {
-                    pinchX: (touchStartXY.clientX + touchStartXY.clientX2) / 2,
-                    pinchY: (touchStartXY.clientY + ouchStartXY.clientY2) / 2,
-                }
+                // const pinchPoint = {
+                //     pinchX: (touchStartXY.clientX + touchStartXY.clientX2) / 2,
+                //     pinchY: (touchStartXY.clientY + ouchStartXY.clientY2) / 2,
+                // }
 
-                if (pinchPoint.pinchX < screenCenterX) {
-                    translateX += (pinchPoint.pinchX * scale) / 100;
-                } else {
-                    translateX -= (pinchPoint.pinchX * scale) / 100;
-                }
+                // if (pinchPoint.pinchX < screenCenterX) {
+                //     translateX += (pinchPoint.pinchX * scale) / 100;
+                // } else {
+                //     translateX -= (pinchPoint.pinchX * scale) / 100;
+                // }
 
-                if (pinchPoint.pinchY < screenCenterY) {
-                    translateY += (pinchPoint.pinchY * scale) / 100;
-                } else {
-                    translateY -= (pinchPoint.pinchY * scale) / 100;
-                }
+                // if (pinchPoint.pinchY < screenCenterY) {
+                //     translateY += (pinchPoint.pinchY * scale) / 100;
+                // } else {
+                //     translateY -= (pinchPoint.pinchY * scale) / 100;
+                // }
 
 
 
