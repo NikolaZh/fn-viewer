@@ -205,10 +205,10 @@
                     }
                 }
 
-                // if (scale < 2) {
-                //     translateX = -50;
-                //     translateY = -50;
-                // }
+                if (scale < 2) {
+                    translateX = -50;
+                    translateY = -50;
+                }
 
                 imgViewer
                     .css({ transform: `translate(${translateX}%,${translateY}%) scale(${scale})` });
