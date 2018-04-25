@@ -163,6 +163,8 @@
                 if (scale <= 1) {
                     scale = 1;
                     imgZoomed = false;
+                } else if (scale >= 4) {
+                    scale = 4;
                 }
                 const pinchPoint = {
                     pinchX: (touchStartXY.clientX + touchStartXY.clientX2) / 2,
