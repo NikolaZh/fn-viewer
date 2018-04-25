@@ -121,8 +121,8 @@
             let scale = 1;
             let translateX = -50;
             let translateY = -50;
-            let screenCenterX = $(window).width() / 2;
-            let screenCenterY = $(window).height() / 2;
+            const screenCenterX = $(window).width() / 2;
+            const screenCenterY = $(window).height() / 2;
 
             const swipeHandler = () => {
                 const deltaX = touchEndXY.clientX - touchStartXY.clientX;
@@ -168,7 +168,7 @@
                     pinchX: (touchStartXY.clientX + touchStartXY.clientX2) / 2,
                     pinchY: (touchStartXY.clientY + touchStartXY.clientY2) / 2,
                 }
-                if (deltaDistance > 0) { // zoom to pinch point
+                if (deltaDistance > 0 && scale < 4) { // zoom to pinch point
                     if (pinchPoint.pinchX < screenCenterX) {
                         translateX += (((screenCenterX - pinchPoint.pinchX) * scale) / 200);
                     } else {
