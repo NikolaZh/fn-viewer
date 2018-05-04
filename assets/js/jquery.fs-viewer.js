@@ -55,6 +55,7 @@
             this.$arrowBack = arrowBack;
             this.$captionLayer = caption;
             this.$fsImg = null;
+            this.advancedScroll = false;
             this._isZoomed = false;
             this._images = [];
             this._cur = 0;
@@ -270,6 +271,8 @@
                 $viewLayer.find('img').css('transform', 'translate(-50%, -50%)');
                 $viewLayer.find('img').off('mousemove');
                 $viewLayer.find('img').css('cursor', 'default');
+                $viewLayer.css('overflow-y', '');
+                $('body').css('overflow-y', 'inherit');
                 viewer._isZoomed = false;
                 viewer._arrowsShowHide();
                 translate = -50;
@@ -279,7 +282,8 @@
                 zoomOut();
             });
             return function(e) {
-                $viewLayer.add($zoom).bind('wheel', () => false);
+                $('body').css('overflow-y', 'hidden');
+                $viewLayer.css('overflow-y', 'scroll');
                 $arrow.hide();
                 $arrowBack.hide();
                 const imgCenter = $($viewLayer).offset().top + $(window).height() / 2;
@@ -300,45 +304,36 @@
                 if (e && !viewer._isZoomed) {
                     $viewLayer.find('img').css('max-height', '400%');
                     viewer._isZoomed = true;
-                    $viewLayer.on('wheel', (event) => { // normal scroll by mousewheel
-                        const scrollDirection = event.originalEvent.deltaY;
-                        if (scrollDirection < 0 && translate < -12) {
-                            translate += 1;
-                            $viewLayer.find('img').css('transform', `translate(-50%, ${translate}%)`);
-                        } else if (scrollDirection > 0 && translate > -88) {
-                            translate -= 1;
-                            $viewLayer.find('img').css('transform', `translate(-50%, ${translate}%)`);
-                        }
-                    });
-
-                    $viewLayer.find('img').on('mousemove', (event) => { // scroll by position mouse on screeen, you can delete this block if no need it
-                        const mouseNewZone = mouseCurrentZone(event.pageY);
-                        if (mouseLastZone !== mouseNewZone) { // mouse cursor change zone
-                            mouseLastZone = mouseNewZone;
-                            const speed = 400 / Math.abs(Math.pow(mouseNewZone, 3));
-                            clearInterval(scrollImg);
-                            if (mouseNewZone > 0) {
-                                scrollImg = setInterval(() => {
-                                    if (translate < -12) {
-                                        translate += 0.02;
-                                        $viewLayer.find('img').css('transform', `translate(-50%, ${translate}%)`);
-                                    }
-                                }, speed);
-                                $viewLayer.find('img').css('cursor', 'n-resize');
-                            } else if (mouseNewZone < 0) {
-                                scrollImg = setInterval(() => {
-                                    if (translate > -88) {
-                                        translate -= 0.02;
-                                        $viewLayer.find('img').css('transform', `translate(-50%, ${translate}%)`);
-                                    }
-                                }, speed);
-                                $viewLayer.find('img').css('cursor', 's-resize');
-                            } else {
+                    if (viewer.advancedScroll) {
+                        $viewLayer.find('img').on('mousemove', (event) => { // scroll by position mouse on screeen, you can delete this block if no need it
+                            const mouseNewZone = mouseCurrentZone(event.pageY);
+                            if (mouseLastZone !== mouseNewZone) { // mouse cursor change zone
+                                mouseLastZone = mouseNewZone;
+                                const speed = 400 / Math.abs(Math.pow(mouseNewZone, 3));
                                 clearInterval(scrollImg);
-                                $viewLayer.find('img').css('cursor', 'default');
+                                if (mouseNewZone > 0) {
+                                    scrollImg = setInterval(() => {
+                                        if (translate < -12) {
+                                            translate += 0.02;
+                                            $viewLayer.find('img').css('transform', `translate(-50%, ${translate}%)`);
+                                        }
+                                    }, speed);
+                                    $viewLayer.find('img').css('cursor', 'n-resize');
+                                } else if (mouseNewZone < 0) {
+                                    scrollImg = setInterval(() => {
+                                        if (translate > -88) {
+                                            translate -= 0.02;
+                                            $viewLayer.find('img').css('transform', `translate(-50%, ${translate}%)`);
+                                        }
+                                    }, speed);
+                                    $viewLayer.find('img').css('cursor', 's-resize');
+                                } else {
+                                    clearInterval(scrollImg);
+                                    $viewLayer.find('img').css('cursor', 'default');
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 } else if (e) {
                     zoomOut();
                 }
