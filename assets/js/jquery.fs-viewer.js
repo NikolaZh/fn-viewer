@@ -121,11 +121,10 @@
 
             return function(e) {
                 const touch = e.originalEvent.touches[0];
-                if (e.type === 'touchstart' && e.originalEvent.touches.length === 1) {
+                if (e.originalEvent.touches.length === 1) {
                     inSwipe = true;
                 } else {
                     inSwipe = false;
-                    console.log('inSwipe off');
                 }
                 console.log(inSwipe);
 
