@@ -62,7 +62,8 @@
             this._context = $context.each(function(i) { // cycle operations with DOM-elements
                 $(this).data('fsViewerIndex', i);
             });
-            this._deviceIsMobile = (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase()));
+            // this._deviceIsMobile = (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase()));
+            this._deviceIsMobile = ('ontouchstart' in document.documentElement);
             this._addUIHandlers();
         }
 
