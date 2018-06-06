@@ -125,6 +125,7 @@
                     inSwipe = true;
                 } else {
                     inSwipe = false;
+                    console.log('inSwipe off');
                 }
                 console.log(inSwipe);
 
