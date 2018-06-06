@@ -122,9 +122,9 @@
             return function(e) {
                 const touch = e.originalEvent.touches[0];
                 console.log(e.originalEvent.touches.length);
-                if (e.originalEvent.touches.length === 1) {
+                if (e.type == 'touchstart' && e.originalEvent.touches.length === 1) {
                     inSwipe = true;
-                } else {
+                } else if (e.type == 'touchstart') {
                     inSwipe = false;
                 }
                 console.log(inSwipe);
