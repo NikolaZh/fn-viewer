@@ -116,6 +116,7 @@
         }
 
         _mobileHandler() {
+
             let swipeStart, swipeEnd;
             const SWIPE_MIN_DELTA = 75;
             const SWIPE_MIN_TIME = 500;
@@ -172,6 +173,7 @@
                             imgViewer
                                 .animate({ top: '50%' });
                         });
+                    $('body').css('overflow-y', 'inherit');
                 }
             }
 
@@ -450,6 +452,7 @@
                     $fxImg.remove();
                     viewer._checkAndShowCaption($clicked);
                     viewer._galleryTools();
+                    $('body').css('overflow-y', 'hidden');
                 });
             };
         }
