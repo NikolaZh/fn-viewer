@@ -120,6 +120,7 @@
             const isZoomedByDevice = () => {
                 console.log(screen.width * (window.devicePixelRatio || 1));
                 console.log(document.documentElement.clientWidth / window.innerWidth);
+                console.log(Date());
             }
 
 
@@ -132,7 +133,7 @@
                 if (e.type == 'touchstart' && !multiTouch) {
                     this._inSwipe = true;
                 } else if (multiTouch) {
-                    inSwipe = false;
+                    this._inSwipe = false;
                 }
                 isZoomedByDevice();
 
