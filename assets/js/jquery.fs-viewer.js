@@ -135,8 +135,12 @@
                 } else if (multiTouch) {
                     this._inSwipe = false;
                 }
-                isZoomedByDevice();
+                // isZoomedByDevice();
 
+                console.log(document.documentElement.clientWidth);
+                console.log(window.innerWidth);
+                console.log(window.devicePixelRatio);
+                console.log(screen.width);
 
 
             };
