@@ -119,7 +119,7 @@
 
             let swipeStart, swipeEnd;
             const SWIPE_MIN_DELTA = 75;
-            const SWIPE_MIN_TIME = 500;
+            const SWIPE_MIN_TIME = 600;
 
             class PointAndTime {
                 constructor(x, y, time) {
@@ -455,8 +455,8 @@
                     viewer._checkAndShowCaption($clicked);
                     viewer._galleryTools();
                     $('body').css('position', 'relative');
-                    $('body').css('overflow-x', 'hidden');
-                    $('body').css('overflow-y', 'hidden');
+                    $('body').css('overflow', 'hidden');
+                    // $('body').css('overflow-y', 'hidden');
                 });
             };
         }
