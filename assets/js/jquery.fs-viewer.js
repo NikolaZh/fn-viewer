@@ -118,7 +118,7 @@
         _mobileHandler() {
             let swipeStart, swipeEnd;
             const SWIPE_MIN_DELTA = 75;
-            const SWIPE_MIN_TIME = 800;
+            const SWIPE_MIN_TIME = 500;
 
             class PointAndTime {
                 constructor(x, y, time) {
