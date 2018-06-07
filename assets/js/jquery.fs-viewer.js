@@ -174,6 +174,7 @@
                                 .animate({ top: '50%' });
                         });
                     $('body').css('overflow-y', 'inherit');
+                    $('html').css('overflow-y', 'inherit');
                 }
             }
 
@@ -187,6 +188,7 @@
                 } else if (e.type === 'touchstart') {
                     this._inSwipe = true;
                     swipeStart = PointAndTime.fromTouch(touch, Date.now());
+                    swipeEnd = PointAndTime.fromTouch(touch, Date.now());
                 } else if (e.type === 'touchmove') {
                     swipeEnd = PointAndTime.fromTouch(touch, Date.now());
                 }
@@ -453,6 +455,7 @@
                     viewer._checkAndShowCaption($clicked);
                     viewer._galleryTools();
                     $('body').css('overflow-y', 'hidden');
+                    $('html').css('overflow-y', 'hidden');
                 });
             };
         }
