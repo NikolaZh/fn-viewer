@@ -55,8 +55,9 @@
             this.$arrowBack = arrowBack;
             this.$captionLayer = caption;
             this.$fsImg = null;
-            this.advancedScroll = true;
+            this.advancedScroll = false;
             this._isZoomed = false;
+            this._inSwipe = false;
             this._images = [];
             this._cur = 0;
             this._context = $context.each(function(i) { // cycle operations with DOM-elements
@@ -115,19 +116,27 @@
         }
 
         _mobileHandler() {
-            let inSwipe = false;
 
+            const isZoomedByDevice = () => {
+                console.log(screen.width * (window.devicePixelRatio || 1));
+                console.log(document.documentElement.clientWidth / window.innerWidth);
+            }
 
 
             return function(e) {
-                const touch = e.originalEvent.touches[0];
-                console.log(e.originalEvent.touches.length);
-                if (e.type == 'touchstart' && e.originalEvent.touches.length === 1) {
-                    inSwipe = true;
-                } else if (e.type == 'touchstart') {
+                // const touch = e.originalEvent.touches[0];
+                const multiTouch = (e.originalEvent.touches.length != 1) ? true : false;
+
+
+
+                if (e.type == 'touchstart' && !multiTouch) {
+                    this._inSwipe = true;
+                } else if (multiTouch) {
                     inSwipe = false;
                 }
-                console.log(inSwipe);
+                isZoomedByDevice();
+
+
 
             };
         }
