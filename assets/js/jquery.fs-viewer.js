@@ -454,8 +454,9 @@
                     $fxImg.remove();
                     viewer._checkAndShowCaption($clicked);
                     viewer._galleryTools();
-                    $('body').css('overflow-y', 'hidden');
                     $('body').css('position', 'relative');
+                    $('body').css('overflow-x', 'hidden');
+                    $('body').css('overflow-y', 'hidden');
                 });
             };
         }
