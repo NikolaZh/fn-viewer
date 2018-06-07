@@ -455,7 +455,7 @@
                     viewer._checkAndShowCaption($clicked);
                     viewer._galleryTools();
                     $('body').css('overflow-y', 'hidden');
-                    $('html').css('overflow-y', 'hidden');
+                    $('body').css('position', 'relative');
                 });
             };
         }
