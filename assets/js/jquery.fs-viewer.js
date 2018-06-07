@@ -118,7 +118,7 @@
         _mobileHandler() {
             let swipeStart, swipeEnd;
             const SWIPE_MIN_DELTA = 75;
-            const SWIPE_MIN_TIME = 1500;
+            const SWIPE_MIN_TIME = 800;
 
             class PointAndTime {
                 constructor(x, y, time) {
@@ -154,10 +154,10 @@
             }
 
             const swipeHandler = () => {
-                const isSwipeMinDeltaX = (Math.abs(deltaX()) > SWIPE_MIN_DELTA);
-                const isSwipeMinDeltaY = (Math.abs(deltaY()) > SWIPE_MIN_DELTA);
                 const viewer = this;
                 const imgViewer = viewer.$viewLayer.find('img');
+                const isSwipeMinDeltaX = (Math.abs(deltaX()) > SWIPE_MIN_DELTA);
+                const isSwipeMinDeltaY = (Math.abs(deltaY()) > SWIPE_MIN_DELTA);
 
                 if ((Math.abs(deltaX()) > Math.abs(deltaY())) && isSwipeMinDeltaX) { // swipe more horizontal and no short
                     if (deltaX() < 0) {
@@ -165,7 +165,7 @@
                     } else if (deltaX() > 0) {
                         this._moveToNextImage(false)();
                     }
-                } else if ((Math.abs(deltaX()) < Math.abs(deltaY())) && (deltaY < 0) && isSwipeMinDeltaY) { // vertical swipe from bottom to top and no short
+                } else if ((Math.abs(deltaX()) < Math.abs(deltaY())) && (deltaY() < 0) && isSwipeMinDeltaY) { // vertical swipe from bottom to top and no short
                     imgViewer
                         .animate({ top: '25%' }, () => {
                             this.close();
@@ -178,7 +178,7 @@
 
             return function(e) {
                 const touch = e.originalEvent.touches[0];
-                const multiTouch = (e.originalEvent.touches.length != 1) ? true : false;
+                const multiTouch = (e.originalEvent.touches.length > 1) ? true : false;
 
                 if (multiTouch) {
                     this._inSwipe = false;
@@ -210,7 +210,7 @@
                     .css('max-height', '100%')
                     .off('mousemove')
                     .css('cursor', 'default')
-                    .css('margin-top', '')
+                    .css('margin-top', '');
                 $('body').css('overflow-y', 'inherit');
                 viewer._isZoomed = false;
                 viewer._arrowsShowHide();
