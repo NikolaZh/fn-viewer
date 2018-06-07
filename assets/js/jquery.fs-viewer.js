@@ -116,33 +116,83 @@
         }
 
         _mobileHandler() {
+            let swipeStart, swipeEnd;
+            const SWIPE_MIN_DELTA = 75;
+            const SWIPE_MIN_TIME = 1500;
+
+            class PointAndTime {
+                constructor(x, y, time) {
+                    this.X = x;
+                    this.Y = y;
+                    this.time = time;
+                }
+            }
+
+            PointAndTime.fromTouch = (touch, time) => {
+                return new PointAndTime(touch.clientX, touch.clientY, time);
+            }
 
             const isZoomedByDevice = () => {
-                console.log(screen.width * (window.devicePixelRatio || 1));
-                console.log(document.documentElement.clientWidth / window.innerWidth);
-                console.log(Date());
+                if ('visualViewport' in window) {
+                    return (window.visualViewport.scale != 1);
+                } else {
+                    const zoomLevel = document.documentElement.clientWidth / window.innerWidth;
+                    return zoomLevel > 1.0;
+                }
+            }
+
+            const deltaX = () => {
+                return (swipeEnd.X - swipeStart.X);
+            }
+
+            const deltaY = () => {
+                return (swipeEnd.Y - swipeStart.Y);
+            }
+
+            const deltaTime = () => {
+                return ((swipeEnd.time - swipeStart.time) < SWIPE_MIN_TIME);
+            }
+
+            const swipeHandler = () => {
+                const isSwipeMinDeltaX = (Math.abs(deltaX()) > SWIPE_MIN_DELTA);
+                const isSwipeMinDeltaY = (Math.abs(deltaY()) > SWIPE_MIN_DELTA);
+                const viewer = this;
+                const imgViewer = viewer.$viewLayer.find('img');
+
+                if ((Math.abs(deltaX()) > Math.abs(deltaY())) && isSwipeMinDeltaX) { // swipe more horizontal and no short
+                    if (deltaX() < 0) {
+                        this._moveToNextImage(true)();
+                    } else if (deltaX() > 0) {
+                        this._moveToNextImage(false)();
+                    }
+                } else if ((Math.abs(deltaX()) < Math.abs(deltaY())) && (deltaY < 0) && isSwipeMinDeltaY) { // vertical swipe from bottom to top and no short
+                    imgViewer
+                        .animate({ top: '25%' }, () => {
+                            this.close();
+                            imgViewer
+                                .animate({ top: '50%' });
+                        });
+                }
             }
 
 
             return function(e) {
-                // const touch = e.originalEvent.touches[0];
+                const touch = e.originalEvent.touches[0];
                 const multiTouch = (e.originalEvent.touches.length != 1) ? true : false;
 
-
-
-                if (e.type == 'touchstart' && !multiTouch) {
-                    this._inSwipe = true;
-                } else if (multiTouch) {
+                if (multiTouch) {
                     this._inSwipe = false;
+                } else if (e.type === 'touchstart') {
+                    this._inSwipe = true;
+                    swipeStart = PointAndTime.fromTouch(touch, Date.now());
+                } else if (e.type === 'touchmove') {
+                    swipeEnd = PointAndTime.fromTouch(touch, Date.now());
                 }
-                // isZoomedByDevice();
 
-                console.log(document.documentElement.clientWidth);
-                console.log(window.innerWidth);
-                console.log(window.devicePixelRatio);
-                console.log(screen.width);
-
-
+                if (e.type === 'touchend' && deltaTime() && this._inSwipe && !isZoomedByDevice()) {
+                    this._inSwipe = false;
+                    swipeHandler();
+                }
             };
         }
 
