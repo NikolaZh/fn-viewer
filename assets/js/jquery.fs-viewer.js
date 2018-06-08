@@ -185,7 +185,7 @@
                                 .animate({ top: '50%' });
                         });
                     // viewer._bodyStopScroll(false);
-                    $('body').css('overflow-y', 'inherit');
+                    $('body').css('overflow', 'inherit');
                 }
             }
 
@@ -464,7 +464,7 @@
                     $fxImg.remove();
                     viewer._checkAndShowCaption($clicked);
                     viewer._galleryTools();
-                    $('body').css('overflow-y', 'hidden'); // not working on safari
+                    $('body').css('overflow', 'hidden'); // not working on safari
                     // viewer._bodyStopScroll(true);
                 });
             };
