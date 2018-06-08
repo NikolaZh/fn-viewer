@@ -110,17 +110,17 @@
             this.$arrowBack.on('click', this._moveToNextImage(false));
         }
 
-        _bodyStopScroll(bool) {
-            if (bool === true) {
-                document.body.addEventListener("touchmove", this._preventHandler, { passive: false });
-            } else {
-                document.body.removeEventListener("touchmove", this._preventHandler, { passive: false });
-            }
-        }
+        // _bodyStopScroll(bool) {
+        //     if (bool === true) {
+        //         document.body.addEventListener("touchmove", this._preventHandler, { passive: false });
+        //     } else {
+        //         document.body.removeEventListener("touchmove", this._preventHandler, { passive: false });
+        //     }
+        // }
 
-        _preventHandler(e) {
-            e.preventDefault();
-        }
+        // _preventHandler(e) {
+        //     e.preventDefault();
+        // }
 
         _galleryTools() {
             this._zoomShowHide();
@@ -184,7 +184,8 @@
                             imgViewer
                                 .animate({ top: '50%' });
                         });
-                    viewer._bodyStopScroll(false);
+                    // viewer._bodyStopScroll(false);
+                    $('body').css('overflow-y', 'inherit');
                 }
             }
 
@@ -463,7 +464,8 @@
                     $fxImg.remove();
                     viewer._checkAndShowCaption($clicked);
                     viewer._galleryTools();
-                    viewer._bodyStopScroll(true);
+                    $('body').css('overflow-y', 'hidden'); // not working on safari
+                    // viewer._bodyStopScroll(true);
                 });
             };
 
