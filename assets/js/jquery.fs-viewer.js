@@ -110,13 +110,24 @@
             this.$arrowBack.on('click', this._moveToNextImage(false));
         }
 
+        _bodyStopScroll(bool) {
+            if (bool === true) {
+                document.body.addEventListener("touchmove", this._preventHandler, { passive: false });
+            } else {
+                document.body.removeEventListener("touchmove", this._preventHandler, { passive: false });
+            }
+        }
+
+        _preventHandler(e) {
+            e.preventDefault();
+        }
+
         _galleryTools() {
             this._zoomShowHide();
             this._arrowsShowHide();
         }
 
         _mobileHandler() {
-
             let swipeStart, swipeEnd;
             const SWIPE_MIN_DELTA = 75;
             const SWIPE_MIN_TIME = 600;
@@ -173,11 +184,9 @@
                             imgViewer
                                 .animate({ top: '50%' });
                         });
-                    $('body').css('overflow-y', 'inherit');
-                    $('html').css('overflow-y', 'inherit');
+                    viewer._bodyStopScroll(false);
                 }
             }
-
 
             return function(e) {
                 const touch = e.originalEvent.touches[0];
@@ -454,11 +463,10 @@
                     $fxImg.remove();
                     viewer._checkAndShowCaption($clicked);
                     viewer._galleryTools();
-                    $('body').css('position', 'relative');
-                    $('body').css('overflow', 'hidden');
-                    // $('body').css('overflow-y', 'hidden');
+                    viewer._bodyStopScroll(true);
                 });
             };
+
         }
     }
 
