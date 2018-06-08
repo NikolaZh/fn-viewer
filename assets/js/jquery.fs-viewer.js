@@ -58,6 +58,7 @@
             this.advancedScroll = false;
             this._isZoomed = false;
             this._inSwipe = false;
+            this._scrollPos = null;
             this._images = [];
             this._cur = 0;
             this._context = $context.each(function(i) { // cycle operations with DOM-elements
@@ -110,17 +111,21 @@
             this.$arrowBack.on('click', this._moveToNextImage(false));
         }
 
-        // _bodyStopScroll(bool) {
-        //     if (bool === true) {
-        //         document.body.addEventListener("touchmove", this._preventHandler, { passive: false });
-        //     } else {
-        //         document.body.removeEventListener("touchmove", this._preventHandler, { passive: false });
-        //     }
-        // }
+        _bodyStopScroll(bool) {
+            const $body = $('body');
+            if (bool) {
+                this._scrollPos = window.scrollY;
+                $body
+                    .css('position', 'fixed')
+                    .css('margin-top', `${-this._scrollPos}px`);
 
-        // _preventHandler(e) {
-        //     e.preventDefault();
-        // }
+            } else {
+                $body
+                    .css('position', '')
+                    .css('margin-top', '');
+                window.scrollTo(0, this._scrollPos);
+            }
+        }
 
         _galleryTools() {
             this._zoomShowHide();
@@ -142,7 +147,7 @@
 
             PointAndTime.fromTouch = (touch, time) => {
                 return new PointAndTime(touch.clientX, touch.clientY, time);
-            }
+            };
 
             const isZoomedByDevice = () => {
                 if ('visualViewport' in window) {
@@ -151,19 +156,19 @@
                     const zoomLevel = document.documentElement.clientWidth / window.innerWidth;
                     return zoomLevel > 1.0;
                 }
-            }
+            };
 
             const deltaX = () => {
                 return (swipeEnd.X - swipeStart.X);
-            }
+            };
 
             const deltaY = () => {
                 return (swipeEnd.Y - swipeStart.Y);
-            }
+            };
 
             const deltaTime = () => {
                 return ((swipeEnd.time - swipeStart.time) < SWIPE_MIN_TIME);
-            }
+            };
 
             const swipeHandler = () => {
                 const viewer = this;
@@ -184,10 +189,9 @@
                             imgViewer
                                 .animate({ top: '50%' });
                         });
-                    // viewer._bodyStopScroll(false);
-                    $('body').css('overflow', 'inherit');
+                    viewer._bodyStopScroll(false);
                 }
-            }
+            };
 
             return function(e) {
                 const touch = e.originalEvent.touches[0];
@@ -464,8 +468,9 @@
                     $fxImg.remove();
                     viewer._checkAndShowCaption($clicked);
                     viewer._galleryTools();
-                    $('body').css('overflow', 'hidden'); // not working on safari
-                    // viewer._bodyStopScroll(true);
+                    if (viewer._deviceIsMobile) {
+                        viewer._bodyStopScroll(true);
+                    }
                 });
             };
 
